@@ -6,7 +6,7 @@ import pymysql
 conn = pymysql.connect(host='localhost',
                              user='adminflask',
                              password='adminflask',
-                             database='project_db',
+                             database='project_db_2',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor
                              )
@@ -53,8 +53,8 @@ def staff_add():
         print(form.dateOfBirth.data)
         c = conn.cursor()
 
-        
-        query = f"insert into STAFF VALUES ('{str(form.staffID.data)}','{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}','{str(form.managerID.data)}')"
+        query = f"insert into STAFF(First_name, Last_name, Date_of_birth, Farm_name, Start_date, Manager_ID, Primary_contact_number)\
+         VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}','{str(form.managerID.data)}' ,'{str(form.contactNumber.data)}')"
         c.execute(query) #Execute the query
         conn.commit() #Commit the changes
         
