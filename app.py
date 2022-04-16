@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from graphviz import render
-from forms import StaffAddFrom
+from forms import CattleAddForm, StaffAddFrom
 import pymysql
 
 conn = pymysql.connect(host='localhost',
@@ -14,6 +14,7 @@ conn = pymysql.connect(host='localhost',
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk' 
+
 
 cattle_data = [
     {"ID" : 1,
@@ -37,6 +38,10 @@ def home():
 def cattle():
     return render_template("cattle.html", cattle_info = cattle_data, title = "Cattle")
 
+@app.route('/cattle_add',methods = ['GET','POST'])
+def cattle_add():
+    form = CattleAddForm()
+    return render_template("cattle_add.html", form = form)
 
 #Staff pages
 
