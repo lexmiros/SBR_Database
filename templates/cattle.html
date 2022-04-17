@@ -1,10 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
+<form method="get" action="/cattle_add">
+  <button type="submit">Add cattle</button>
+</form>
+
+<div>
+  <p>
+
+  </p>
+</div>
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">Cattle ID : {{ post.CattleID }}</a>
+              <form method="get" action="/cattle_add">
+                <button type="submit">Add cattle</button>
+              </form>
             </div>
             
             <p class="article-content"><b> Sex : </b>{{ post.Sex }} </p>
