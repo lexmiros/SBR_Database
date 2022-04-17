@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from graphviz import render
-from forms import CattleAddForm, StaffAddFrom
+from forms import CattleAddForm, FarmAddForm, StaffAddFrom
 import pymysql
 
 conn = pymysql.connect(host='localhost',
@@ -16,31 +16,59 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk' 
 
 
-cattle_data = [
-    {"ID" : 1,
-    "Weight" : 900,
-    "Sex" : "Male",
-    "Age" : 10},
-    {"ID" : 2,
-    "Weight" : 850,
-    "Sex" : "Female",
-    "Age" : 20},
-]
+
 
 #Home page
 @app.route("/")
 def home():
     return render_template("home.html")
+#Farm pages
+
+#Farm view
+@app.route("/farm")
+def farm():
+    return render_template("farm.html")
+
+#Farm add
+@app.route("/farm_add",methods = ['GET','POST'])
+def farm_add():
+    form = FarmAddForm()
+    if form.validate_on_submit():
+        c = conn.cursor()
+        query = f"INSERT INTO FARM(FarmName, Address)\
+                VALUES('{form.name.data}','{form.address.data}')"
+        c.execute(query)
+        conn.commit()
+        
+        flash(f'Farm {form.name.data} created', 'success')
+        return redirect(url_for('farm'))
+
+    return render_template("farm_add.html", form = form)
+
+
 
 
 #Cattle pages
+
+#Cattle view
 @app.route("/cattle")
 def cattle():
-    return render_template("cattle.html", cattle_info = cattle_data, title = "Cattle")
+    return render_template("cattle.html",title = "Cattle")
 
+#TO BE COMPLETED RE PADDOCK FOREIGN KEY
 @app.route('/cattle_add',methods = ['GET','POST'])
 def cattle_add():
     form = CattleAddForm()
+    if form.validate_on_submit():
+        c = conn.cursor()
+        query = f"INSERT INTO CATTLE (Sex, Breed, DateOfBirth, Weight, PaddockName, DateMoved)\
+                VALUES('{form.sex.data}','{form.breed.data}','{form.dateOfBirth.data}','{str(form.weight.data)}','{str(form.paddockName.data)}','{form.dateMoved.data}')"
+        c.execute(query)
+        conn.commit()
+        
+        flash(f'Cattle added to {form.paddockName.data}', 'success')
+        return redirect(url_for('cattle'))
+
     return render_template("cattle_add.html", form = form)
 
 #Staff pages
@@ -55,10 +83,10 @@ def staff_home():
 def staff_add():   
     form = StaffAddFrom()
     if form.validate_on_submit():
-        print(form.dateOfBirth.data)
+        #print(form.dateOfBirth.data)
         c = conn.cursor()
 
-        query = f"insert into STAFF(First_name, Last_name, Date_of_birth, Farm_name, Start_date, Manager_ID, Primary_contact_number)\
+        query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, ManagerID, PrimaryContactNumber)\
          VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}','{str(form.managerID.data)}' ,'{str(form.contactNumber.data)}')"
         c.execute(query) #Execute the query
         conn.commit() #Commit the changes

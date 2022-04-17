@@ -2,17 +2,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    {%for cow in cattle_info %}
-        <article class="media content-section">
-            <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ cow.ID }}</a>
-                <small class="text-muted">{{ cow.Age }}</small>
-            </div>
-            <h2><a class="article-title" href="#">{{ cow.Sex }}</a></h2>
-            <p class="article-content">{{ cow.Weight }}</p>
-            </div>
-        </article>
-    {% endfor%}
+   
 
 {% endblock content %}
