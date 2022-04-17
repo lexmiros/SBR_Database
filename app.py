@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from graphviz import render
+from matplotlib.pyplot import title
 from forms import CattleAddForm, FarmAddForm, PaddockAddFrom, StaffAddFrom
 import pymysql
 
@@ -21,14 +22,14 @@ app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk'
 #Home page
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", title = "Home Page")
 
 #Farm pages
 
 #Farm view
 @app.route("/farm")
 def farm():
-    return render_template("farm.html")
+    return render_template("farm.html", title = "Farms")
 
 #Add farm
 @app.route("/farm_add",methods = ['GET','POST'])
@@ -44,7 +45,7 @@ def farm_add():
         flash(f'Farm {form.name.data} created', 'success')
         return redirect(url_for('farm'))
 
-    return render_template("farm_add.html", form = form)
+    return render_template("farm_add.html", form = form,title = "Add farms")
 
 
 #Paddock pages
@@ -68,7 +69,7 @@ def paddock_add():
         flash(f'Paddock {form.paddockName.data} created', 'success')
         return redirect(url_for('paddock'))
 
-    return render_template("paddock_add.html", form = form)
+    return render_template("paddock_add.html", form = form, title = "Add paddocks")
 
 
 
@@ -93,14 +94,14 @@ def cattle_add():
         flash(f'Cattle added to {form.paddockName.data}', 'success')
         return redirect(url_for('cattle'))
 
-    return render_template("cattle_add.html", form = form)
+    return render_template("cattle_add.html", form = form, title = "Add cattle")
 
 #Staff pages
 
 #staff homepage
 @app.route("/staff_home")
 def staff_home():
-    return render_template("staff_home.html")
+    return render_template("staff_home.html", title = "Staff")
 
 #Add staff
 @app.route("/staff_add", methods = ['GET','POST'])
@@ -118,7 +119,7 @@ def staff_add():
         flash(f'Staff member created for {form.firstName.data}', 'success')
         return redirect(url_for('staff_home'))
     
-    return render_template("staff_add.html", form = form)
+    return render_template("staff_add.html", form = form, title = "Add staff")
 
 
 #Vehicle pages
