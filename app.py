@@ -64,8 +64,11 @@ def cattle():
 #Vehicle pages
 @app.route("/vehicles")
 def vehicles():
-    return render_template("vehicles.html")
-
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM vehicles INNER JOIN vehicle_brands ON vehicles.VehicleID=vehicle_brands.VehicleID LEFT JOIN motorbikes ON vehicles.VehicleID=motorbikes.VehicleID LEFT JOIN quadbikes ON vehicles.VehicleID=quadbikes.VehicleID LEFT JOIN buggies ON vehicles.VehicleID=buggies.VehicleID;")
+    posts = c.fetchall()
+    return render_template('vehicles.html', posts=posts)
 #staff homepage
 @app.route("/staff_home")
 def staff_home():
