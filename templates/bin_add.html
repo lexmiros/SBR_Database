@@ -1,0 +1,105 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{form.hidden_tag()}}
+            <fieldset class = "form-group">
+                <legend class="border-bottom mb-4"> Add Cattle</legend>
+                
+                
+                <div class="form-group">
+                    {{form.binNumber.label(class="form-control-label") }}
+
+                    {% if form.binNumber.errors %}
+                        {{form.binNumber(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.binNumber.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.binNumber(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+
+                <div class="form-group">
+                    {{form.paddockName.label(class="form-control-label") }}
+
+                    {% if form.paddockName.errors %}
+                        {{form.paddockName(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.paddockName.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.paddockName(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+                
+                <div class="form-group">
+                    {{form.lastChecked.label(class="form-control-label") }}
+
+                    {% if form.lastChecked.errors %}
+                        {{form.lastChecked(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.lastChecked.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.lastChecked(class="form-control form-control-lg") }}
+                    {%endif%}
+
+                </div>
+
+                <div class="form-group">
+                    {{form.binContains.label(class="form-control-label") }}
+
+                    {% if form.binContains.errors %}
+                    {{form.binContains(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.binContains.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.binContains(class="form-control form-control-lg") }}
+                {%endif%}
+
+                </div>
+
+        
+
+                <div class="form-group">
+                    {{form.binLevel.label(class="form-control-label") }}
+
+                    
+                    {% if form.binLevel.errors %}
+                    {{form.binLevel(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.binLevel.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.binLevel(class="form-control form-control-lg") }}
+                {%endif%}
+
+                </div>
+
+
+            </fieldset>
+
+            <div class="form-group">
+                {{form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
+        
+    </div>
+   
+{% endblock content %}

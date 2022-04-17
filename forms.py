@@ -4,8 +4,14 @@ from tokenize import String
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField,PasswordField, SubmitField, BooleanField, DateField, SelectField, DecimalField
 from wtforms.validators import DataRequired, Length, Email, EqualTo 
+"""
+Forms for select functionality
+"""
 
 
+"""
+Forms for insert fucnitonality 
+"""
 class StaffAddFrom(FlaskForm):
     #staffID = IntegerField("Staff ID")
     firstName = StringField('FirstName', validators=[DataRequired(), Length(min = 2, max = 20)])
@@ -36,4 +42,37 @@ class PaddockAddFrom(FlaskForm):
     size =  DecimalField("Paddock size : ", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
     grassCondition = SelectField("Grass condition : ", choices=[('Green', 'Green'), ('Dry', 'Dry')], validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])
+    submit = SubmitField("Add Farm")
+
+class BinAddForm(FlaskForm):
+    binNumber = IntegerField("Bin number", validators=[DataRequired()])
+    paddockName = StringField("Name of the paddock : ", validators=[DataRequired(), Length(min = 2, max = 20)] )
+    lastChecked = DateField("Date bin was last checked :", validators=[DataRequired()])
+    binContains = SelectField("Bin contains ", choices=[('Wheat', 'Wheat'), ('Salt Lick', 'Salt Lick'), ('Sorghum','Sorghum')], validators=[DataRequired()])
+    binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
+    submit = SubmitField("Add Farm")
+
+class MotorbikeAddForm(FlaskForm):
+    #vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
+    model = StringField("Vehicle model : ", validators=[DataRequired()])
+    farmName = StringField("Containing farm name : ", validators=[DataRequired()])
+    purchaseDate = DateField("Date purchased", validators=[DataRequired()])
+    engineCC = IntegerField("Vehicle ID", validators=[DataRequired()])
+    submit = SubmitField("Add Farm")
+
+class QuadbikeAddForm(FlaskForm):
+    #vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
+    model = StringField("Vehicle model : ", validators=[DataRequired()])
+    farmName = StringField("Containing farm name : ", validators=[DataRequired()])
+    purchaseDate = DateField("Date purchased", validators=[DataRequired()])
+    rollCage = SelectField("Roll cage attached: ", choices=[('Yes', 'Yes'), ('No', 'No')], validators=[DataRequired()])
+    submit = SubmitField("Add Farm")
+
+
+class BuggiesAddForm(FlaskForm):
+    #vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
+    model = StringField("Vehicle model : ", validators=[DataRequired()])
+    farmName = StringField("Containing farm name : ", validators=[DataRequired()])
+    purchaseDate = DateField("Date purchased", validators=[DataRequired()])
+    numberOfSeats = IntegerField("Number of Seats", validators=[DataRequired()])
     submit = SubmitField("Add Farm")

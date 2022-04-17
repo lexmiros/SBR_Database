@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from graphviz import render
-from matplotlib.pyplot import title
-from forms import CattleAddForm, FarmAddForm, PaddockAddFrom, StaffAddFrom
+from forms import BinAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, StaffAddFrom
 import pymysql
+
+
 
 conn = pymysql.connect(host='localhost',
                              user='adminflask',
@@ -12,48 +12,85 @@ conn = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor
                              )
 
+#Turn the results from the database into a dictionary
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk' 
 
 
-
+"""
+Home pages
+"""
 
 #Home page
 @app.route("/")
 def home():
     return render_template("home.html", title = "Home Page")
 
-#Farm pages
-
 #Farm view
 @app.route("/farm")
 def farm():
-    return render_template("farm.html", title = "Farms")
-
-#Add farm
-@app.route("/farm_add",methods = ['GET','POST'])
-def farm_add():
-    form = FarmAddForm()
-    if form.validate_on_submit():
-        c = conn.cursor()
-        query = f"INSERT INTO FARM(FarmName, Address)\
-                VALUES('{form.name.data}','{form.address.data}')"
-        c.execute(query)
-        conn.commit()
-        
-        flash(f'Farm {form.name.data} created', 'success')
-        return redirect(url_for('farm'))
-
-    return render_template("farm_add.html", form = form,title = "Add farms")
-
-
-#Paddock pages
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM farm")
+    posts = c.fetchall()
+    return render_template('farm.html', posts=posts)
+    
 
 #Paddock view
 @app.route("/paddock")
 def paddock():
-    return(render_template("paddock.html"))
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM paddock")
+    posts = c.fetchall()
+    return render_template('paddock.html', posts=posts)
+
+#Cattle view
+@app.route("/cattle")
+def cattle():
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM cattle")
+    posts = c.fetchall()
+    return render_template('cattle.html', posts=posts)
+
+#Vehicle pages
+@app.route("/vehicles")
+def vehicles():
+    return render_template("vehicles.html")
+
+#staff homepage
+@app.route("/staff_home")
+def staff_home():
+    return render_template("staff_home.html", title = "Staff")
+
+"""
+Insert functionalty : Add pages
+"""
+
+#Add farm
+@app.route("/farm_add",methods = ['GET','POST'])
+def farm_add():
+        form = FarmAddForm()
+        if form.validate_on_submit():
+            c = conn.cursor()
+            query = f"INSERT INTO FARM(FarmName, Address)\
+                    VALUES('{form.name.data}','{form.address.data}')"
+            c.execute(query)
+            conn.commit()
+            
+            flash(f'Farm {form.name.data} created', 'success')
+            return redirect(url_for('farm'))
+
+        return render_template("farm_add.html", form = form,title = "Add farms")
+
 
 #Add paddock
 @app.route("/paddock_add",methods = ['GET','POST'])
@@ -72,14 +109,6 @@ def paddock_add():
     return render_template("paddock_add.html", form = form, title = "Add paddocks")
 
 
-
-#Cattle pages
-
-#Cattle view
-@app.route("/cattle")
-def cattle():
-    return render_template("cattle.html",title = "Cattle")
-
 #Add cattle
 @app.route('/cattle_add',methods = ['GET','POST'])
 def cattle_add():
@@ -96,12 +125,6 @@ def cattle_add():
 
     return render_template("cattle_add.html", form = form, title = "Add cattle")
 
-#Staff pages
-
-#staff homepage
-@app.route("/staff_home")
-def staff_home():
-    return render_template("staff_home.html", title = "Staff")
 
 #Add staff
 @app.route("/staff_add", methods = ['GET','POST'])
@@ -121,12 +144,52 @@ def staff_add():
     
     return render_template("staff_add.html", form = form, title = "Add staff")
 
+#Add feed bin
+@app.route("/bin_add", methods = ['GET', 'POST'])
+def bin_add():
+    form = BinAddForm()
+    if form.validate_on_submit():
+        c = conn.cursor()
 
-#Vehicle pages
-@app.route("/vehicles")
-def vehicles():
-    return render_template("vehicles.html")
+        query = f"INSERT INTO feed_bins(BinNumber, PaddockName, LastChecked, BinContains, BinLevel) \
+        VALUES('{form.binNumber.data}','{form.paddockName.data}','{form.lastChecked.data}','{form.binContains.data}','{form.binLevel.data}')"
 
+        c.execute(query)
+        conn.commit()
+
+        flash(f"Bin {form.binNumber.data} added in paddock {form.paddockName.data}")
+
+        return redirect(url_for('paddock'))
+
+    return render_template("bin_add.html", form = form, title = "Add bin")
+
+#Add motorbike
+##INCOMPLETE
+@app.route("/motorbike_add", methods = ['GET', 'POST'])
+def motorbike_add():
+    form = MotorbikeAddForm()
+    if form.validate_on_submit():
+        c = conn.cursor()
+
+        query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
+        VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
+
+        c.execute(query)
+        conn.commit()
+
+        query = f"INSERT INTO motorbikes(Model, FarmName, PurchaseDate) \
+        VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
+
+        c.execute(query)
+        conn.commit()
+
+
+        flash(f"Motorbike {form.vehicleID.data} added to {form.farmName.data}")
+
+        return redirect(url_for('vehicles'))
+
+    return render_template("motorbike_add.html", form = form, title = "Add motorbike")
 
 if __name__ == "__main__":
     app.run(debug = True)
+    

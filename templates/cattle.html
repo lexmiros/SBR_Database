@@ -1,7 +1,24 @@
-
 {% extends "layout.html" %}
-
 {% block content %}
-   
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">Cattle ID : {{ post.CattleID }}</a>
+            </div>
+            
+            <p class="article-content"><b> Sex : </b>{{ post.Sex }} </p>
+            <p class="article-content"><b> Breed : </b>{{ post.Breed }} </p>
+            <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
+            <p class="article-content"><b> Weight : </b>{{ post.Weight }} </p>
+            <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
+            <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
 
+           
+          </div>
+        </article>
+    {% endfor %}
 {% endblock content %}
+
+
+
