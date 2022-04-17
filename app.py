@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from graphviz import render
-from forms import CattleAddForm, FarmAddForm, StaffAddFrom
+from forms import CattleAddForm, FarmAddForm, PaddockAddFrom, StaffAddFrom
 import pymysql
 
 conn = pymysql.connect(host='localhost',
@@ -22,6 +22,7 @@ app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk'
 @app.route("/")
 def home():
     return render_template("home.html")
+
 #Farm pages
 
 #Farm view
@@ -29,7 +30,7 @@ def home():
 def farm():
     return render_template("farm.html")
 
-#Farm add
+#Add farm
 @app.route("/farm_add",methods = ['GET','POST'])
 def farm_add():
     form = FarmAddForm()
@@ -46,6 +47,29 @@ def farm_add():
     return render_template("farm_add.html", form = form)
 
 
+#Paddock pages
+
+#Paddock view
+@app.route("/paddock")
+def paddock():
+    return(render_template("paddock.html"))
+
+#Add paddock
+@app.route("/paddock_add",methods = ['GET','POST'])
+def paddock_add():
+    form = PaddockAddFrom()
+    if form.validate_on_submit():
+        c = conn.cursor()
+        query = f"INSERT INTO PADDOCK(PaddockName, Size, GrassCondition, FarmName)\
+                VALUES('{form.paddockName.data}','{str(form.size.data)}','{form.grassCondition.data}','{form.farmName.data}')"
+        c.execute(query)
+        conn.commit()
+        
+        flash(f'Paddock {form.paddockName.data} created', 'success')
+        return redirect(url_for('paddock'))
+
+    return render_template("paddock_add.html", form = form)
+
 
 
 #Cattle pages
@@ -55,7 +79,7 @@ def farm_add():
 def cattle():
     return render_template("cattle.html",title = "Cattle")
 
-#TO BE COMPLETED RE PADDOCK FOREIGN KEY
+#Add cattle
 @app.route('/cattle_add',methods = ['GET','POST'])
 def cattle_add():
     form = CattleAddForm()
