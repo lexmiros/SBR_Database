@@ -1,12 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
+<a class="btn btn-primary" href="buggies_add.html" role="button">Add Buggy</a>
+<a class="btn btn-primary" href="motorbike_add.html" role="button">Add Motorbike</a>
+<a class="btn btn-primary" href="quadbike_add.html" role="button">Add Quadbike</a>
+<div>
+  <p>
+
+  </p>
+</div>
+
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">Vehicle ID : {{ post.VehicleID }}</a>
             </div>
-            
+            <div>
+              <button type="button" class ="btn btn-secondary btn-sm"> Update vehicles information </button>
+              </div>
             <p class="article-content"><b> Model : </b>{{ post.Model }} </p>
             <p class="article-content"><b> Farm location : </b>{{ post.FarmName }} </p>
             <p class="article-content"><b> Purchase date: </b>{{ post.PurchaseDate }} </p>
@@ -19,9 +30,29 @@
             {% elif post.NumberOfSeats %}
             <p class="article-content"><b> Vehicle type: </b> Buggy </p>
             {% endif %}
-
+            <button type="button" class ="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"> Delete </button>
           </div>
         </article>
+        <!-- Copied from https://getbootstrap.com/docs/4.0/components/modal/ and modified -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
     {% endfor %}
 {% endblock content %}
 

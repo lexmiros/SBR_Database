@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<a class="btn btn-primary" href="{{url_for('staff_add')}}" role="button">Add Staff</a>
+<div>
+  <p>
+
+  </p>
+</div>
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">Staff ID : {{ post.StaffID }}</a>
+              
+            </div>
+            <div>
+            <button type="button" class ="btn btn-secondary btn-sm"> Update staff information </button>
+            </div>
+            <div>
+            
+            <p class="article-content"><b> First name : </b>{{ post.FirstName }} </p>
+            <p class="article-content"><b> Last name : </b>{{ post.LastName }} </p>
+            <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
+            <p class="article-content"><b> Primary farm : </b>{{ post.FarmName}} </p>
+            <p class="article-content"><b> Start date : </b>{{ post.StartDate }} </p>
+            <p class="article-content"><b> Primary contact number: </b>{{ post.PrimaryContactNumber}} </p>
+            {% if post.ManagerID %}
+            <p class="article-content"><b> Manager's ID : </b>{{ post.ManagerID }} </p>
+            {% endif %}
+            <form action="{{ url_for('delete_staff', staffID = post.StaffID)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+            
+          </article>    
+      
+    {% endfor %}
+{% endblock content %}
+
+

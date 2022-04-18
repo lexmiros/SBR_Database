@@ -1,15 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
+<a class="btn btn-primary" href="{{url_for('farm_add')}}" role="button">Add Farms</a>
+<div>
+  <p>
+
+  </p>
+</div>
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">{{ post.FarmName }}</a>
             </div>
+            <div>
+              <button type="button" class ="btn btn-secondary btn-sm"> Update farm information </button>
+              </div>
             <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.Address }}</p>
+            <form action="{{ url_for('delete_farm', farmName = post.FarmName)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
           </div>
+          
         </article>
+       
     {% endfor %}
 {% endblock content %}
 

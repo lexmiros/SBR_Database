@@ -25,7 +25,7 @@ app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk'
 
 
 """
-Home pages
+Routes for select pages : home pages
 """
 
 #Home page
@@ -72,10 +72,14 @@ def vehicles():
 #staff homepage
 @app.route("/staff_home")
 def staff_home():
-    return render_template("staff_home.html", title = "Staff")
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM staff;")
+    posts = c.fetchall()
+    return render_template('staff.html', posts=posts)
 
 """
-Insert functionalty : Add pages
+Routes for insert functionalty : Add pages
 """
 
 #Add farm
@@ -192,6 +196,43 @@ def motorbike_add():
         return redirect(url_for('vehicles'))
 
     return render_template("motorbike_add.html", form = form, title = "Add motorbike")
+
+
+
+"""
+Routes for delete functionality : delete pages
+"""
+#Delete Farm
+@app.route("/farm/delete/<farmName>", methods=['POST'])
+def delete_farm(farmName):
+    c = conn.cursor()
+    current_farm= farmName
+    query = f"DELETE FROM farm WHERE FarmName = '{current_farm}'"
+    c.execute(query)
+    conn.commit()
+    return redirect(url_for('farm'))
+
+@app.route("/staff/delete/<int:staffID>", methods=['POST'])
+def delete_staff(staffID):
+    c = conn.cursor()
+    current_id = staffID
+    query = f"DELETE FROM staff WHERE StaffID = {current_id}"
+    c.execute(query)
+    conn.commit()
+    return redirect(url_for('staff_home'))
+
+@app.route("/cattle/delete/<int:cattleID>", methods=['POST'])
+def delete_cattle(cattleID):
+    c = conn.cursor()
+    current_id = cattleID
+    query = f"DELETE FROM cattle WHERE CattleID = '{current_id}'"
+    c.execute(query)
+    conn.commit()
+    return redirect(url_for('cattle'))
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug = True)

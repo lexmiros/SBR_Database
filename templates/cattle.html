@@ -1,9 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<form method="get" action="/cattle_add">
-  <button type="submit">Add cattle</button>
-</form>
-
+<a class="btn btn-primary" href="{{url_for('cattle_add')}}" role="button">Add Cattle</a>
 <div>
   <p>
 
@@ -14,10 +11,10 @@
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">Cattle ID : {{ post.CattleID }}</a>
-              <form method="get" action="/cattle_add">
-                <button type="submit">Add cattle</button>
-              </form>
             </div>
+            <div>
+              <button type="button" class ="btn btn-secondary btn-sm"> Update cattle information </button>
+              </div>
             
             <p class="article-content"><b> Sex : </b>{{ post.Sex }} </p>
             <p class="article-content"><b> Breed : </b>{{ post.Breed }} </p>
@@ -25,10 +22,12 @@
             <p class="article-content"><b> Weight : </b>{{ post.Weight }} </p>
             <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
             <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
-
-           
+            <form action="{{ url_for('delete_cattle', cattleID = post.CattleID)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
           </div>
         </article>
+     
     {% endfor %}
 {% endblock content %}
 
