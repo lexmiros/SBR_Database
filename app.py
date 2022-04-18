@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import BinAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, StaffAddFrom
+from forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
 import pymysql
 
 
@@ -176,28 +176,86 @@ def bin_add():
 def motorbike_add():
     form = MotorbikeAddForm()
     if form.validate_on_submit():
+       
+        #Add vehicle to vehicles table
         c = conn.cursor()
-
         query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
         VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
+        c.execute(query)
+        conn.commit()
+        
+        #Get the auto-incremented vehicle ID from vehicles table
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
+        posts = c.fetchall()
+        for post in posts:
+            max_ID = (post["MAX(VehicleID)"])
 
+        #Add vehicle to motorbikes table 
+        query = f"INSERT INTO motorbikes(VehicleID, EngineCC) \
+        VALUES('{max_ID}','{form.engineCC.data}')"
         c.execute(query)
         conn.commit()
 
-        query = f"INSERT INTO motorbikes(Model, FarmName, PurchaseDate) \
-        VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
 
+        #Add vehicle to vehicle_brands table 
+        c = conn.cursor() 
+        query = f"INSERT INTO vehicle_brands(VehicleID, Brand) \
+        VALUES('{max_ID}','{form.brand.data}')"
         c.execute(query)
         conn.commit()
 
-
-        flash(f"Motorbike {form.vehicleID.data} added to {form.farmName.data}")
+        flash(f"Motorbike added to {form.farmName.data}",  'success')
 
         return redirect(url_for('vehicles'))
 
     return render_template("motorbike_add.html", form = form, title = "Add motorbike")
 
+@app.route("/buggies_add", methods = ['GET', 'POST'])
+def buggies_add():
+    form = BuggiesAddForm()
+    if form.validate_on_submit():
+       
+        #Add vehicle to vehicles table
+        c = conn.cursor()
+        query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
+        VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
+        c.execute(query)
+        conn.commit()
+        
+        #Get the auto-incremented vehicle ID from vehicles table
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
+        posts = c.fetchall()
+        for post in posts:
+            max_ID = (post["MAX(VehicleID)"])
 
+        #Add vehicle to buggies table 
+        query = f"INSERT INTO buggies(VehicleID, NumberOfSeats) \
+        VALUES('{max_ID}','{form.numberOfSeats.data}')"
+        c.execute(query)
+        conn.commit()
+
+
+        #Add vehicle to vehicle_brands table 
+        c = conn.cursor() 
+        query = f"INSERT INTO vehicle_brands(VehicleID, Brand) \
+        VALUES('{max_ID}','{form.brand.data}')"
+        c.execute(query)
+        conn.commit()
+
+        flash(f"Buggy added to {form.farmName.data}",  'success')
+
+        return redirect(url_for('vehicles'))
+
+    return render_template("buggies_add.html", form = form)
+
+@app.route("/quadbike_add", methods = ['GET', 'POST'])
+def quadbike_add():
+    form = QuadbikeAddForm()
+    return render_template("quadbike_add.html", form = form)
 
 """
 Routes for delete functionality : delete pages

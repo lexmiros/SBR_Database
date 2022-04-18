@@ -42,7 +42,7 @@ class PaddockAddFrom(FlaskForm):
     size =  DecimalField("Paddock size : ", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
     grassCondition = SelectField("Grass condition : ", choices=[('Green', 'Green'), ('Dry', 'Dry')], validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])
-    submit = SubmitField("Add Farm")
+    submit = SubmitField("Add Paddock")
 
 class BinAddForm(FlaskForm):
     binNumber = IntegerField("Bin number", validators=[DataRequired()])
@@ -50,29 +50,32 @@ class BinAddForm(FlaskForm):
     lastChecked = DateField("Date bin was last checked :", validators=[DataRequired()])
     binContains = SelectField("Bin contains ", choices=[('Wheat', 'Wheat'), ('Salt Lick', 'Salt Lick'), ('Sorghum','Sorghum')], validators=[DataRequired()])
     binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
-    submit = SubmitField("Add Farm")
+    submit = SubmitField("Add Bin")
 
 class MotorbikeAddForm(FlaskForm):
     #vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
+    brand = StringField("Vehicle brand : ", validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])
     purchaseDate = DateField("Date purchased", validators=[DataRequired()])
-    engineCC = IntegerField("Vehicle ID", validators=[DataRequired()])
-    submit = SubmitField("Add Farm")
+    engineCC = IntegerField("Motorbike engine CC", validators=[DataRequired()])
+    submit = SubmitField("Add Motorbike")
 
 class QuadbikeAddForm(FlaskForm):
     #vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
+    brand = StringField("Vehicle brand : ", validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])
     purchaseDate = DateField("Date purchased", validators=[DataRequired()])
     rollCage = SelectField("Roll cage attached: ", choices=[('Yes', 'Yes'), ('No', 'No')], validators=[DataRequired()])
-    submit = SubmitField("Add Farm")
+    submit = SubmitField("Add Quadbike")
 
 
 class BuggiesAddForm(FlaskForm):
     #vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
+    brand = StringField("Vehicle brand : ", validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])
     purchaseDate = DateField("Date purchased", validators=[DataRequired()])
     numberOfSeats = IntegerField("Number of Seats", validators=[DataRequired()])
-    submit = SubmitField("Add Farm")
+    submit = SubmitField("Add Buggy")
