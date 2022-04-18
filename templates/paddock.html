@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+<a class="btn btn-primary" href="{{url_for('paddock_add')}}" role="button">Add Paddock</a>
+<p>
+
+</p>
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
@@ -10,6 +14,9 @@
             <p class="article-content"> Size : {{ post.Size }} acres </p>
             <p class="article-content">Grass condition : {{ post.GrassCondition }}</p>
             <p class="article-content">Containing farm : {{ post.FarmName}}</p>
+            <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
           </div>
         </article>
     {% endfor %}

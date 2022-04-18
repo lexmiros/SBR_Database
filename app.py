@@ -255,6 +255,42 @@ def buggies_add():
 @app.route("/quadbike_add", methods = ['GET', 'POST'])
 def quadbike_add():
     form = QuadbikeAddForm()
+    if form.validate_on_submit():
+       
+        #Add vehicle to vehicles table
+        c = conn.cursor()
+        query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
+        VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
+        c.execute(query)
+        conn.commit()
+        
+        #Get the auto-incremented vehicle ID from vehicles table
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
+        posts = c.fetchall()
+        for post in posts:
+            max_ID = (post["MAX(VehicleID)"])
+
+        #Add vehicle to quadbikes table 
+        query = f"INSERT INTO quadbikes(VehicleID, RollCage) \
+        VALUES('{max_ID}','{form.rollCage.data}')"
+        c.execute(query)
+        conn.commit()
+
+
+        #Add vehicle to vehicle_brands table 
+        c = conn.cursor() 
+        query = f"INSERT INTO vehicle_brands(VehicleID, Brand) \
+        VALUES('{max_ID}','{form.brand.data}')"
+        c.execute(query)
+        conn.commit()
+
+        flash(f"Quadbike added to {form.farmName.data}",  'success')
+
+        return redirect(url_for('vehicles'))
+
+
     return render_template("quadbike_add.html", form = form)
 
 """
@@ -270,6 +306,7 @@ def delete_farm(farmName):
     conn.commit()
     return redirect(url_for('farm'))
 
+#Delete staff
 @app.route("/staff/delete/<int:staffID>", methods=['POST'])
 def delete_staff(staffID):
     c = conn.cursor()
@@ -279,6 +316,7 @@ def delete_staff(staffID):
     conn.commit()
     return redirect(url_for('staff_home'))
 
+#Delete cattle
 @app.route("/cattle/delete/<int:cattleID>", methods=['POST'])
 def delete_cattle(cattleID):
     c = conn.cursor()
@@ -287,6 +325,17 @@ def delete_cattle(cattleID):
     c.execute(query)
     conn.commit()
     return redirect(url_for('cattle'))
+
+
+#Delete paddock
+@app.route("/paddock/delete/<paddockName>", methods=['POST'])
+def delete_paddock(paddockName):
+    c = conn.cursor()
+    current_paddock = paddockName
+    query = f"DELETE FROM paddock WHERE PaddockName = '{current_paddock}'"
+    c.execute(query)
+    conn.commit()
+    return redirect(url_for('paddock'))
 
 
 
