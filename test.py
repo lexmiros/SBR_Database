@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from app import delete_vehicle
+from app import delete_vehicle, update_farm
 from forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
 import pymysql
 
@@ -17,5 +17,4 @@ conn = pymysql.connect(host='localhost',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor
                              )
-
-delete_vehicle(10, "Quadbike")
+update_farm("hi", "bye")

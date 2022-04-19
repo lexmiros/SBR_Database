@@ -15,7 +15,8 @@
             <p class="article-content">Grass condition : {{ post.GrassCondition }}</p>
             <p class="article-content">Containing farm : {{ post.FarmName}}</p>
             <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}", method = "POST">
-              <input class="btn btn-danger" type="submit" value="Delete">
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <button type="button" class ="btn btn-secondary btn-sm"> Update staff information </button>
             </form>
           </div>
         </article>

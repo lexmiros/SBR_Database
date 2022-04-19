@@ -13,11 +13,7 @@
               <a class="mr-2" href="#">Staff ID : {{ post.StaffID }}</a>
               
             </div>
-            <div>
-            <button type="button" class ="btn btn-secondary btn-sm"> Update staff information </button>
-            </div>
-            <div>
-            
+            <div>            
             <p class="article-content"><b> First name : </b>{{ post.FirstName }} </p>
             <p class="article-content"><b> Last name : </b>{{ post.LastName }} </p>
             <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
@@ -27,9 +23,13 @@
             {% if post.ManagerID %}
             <p class="article-content"><b> Manager's ID : </b>{{ post.ManagerID }} </p>
             {% endif %}
+            
+            <div class = "btn-grp">
             <form action="{{ url_for('delete_staff', staffID = post.StaffID)}}", method = "POST">
-              <input class="btn btn-danger" type="submit" value="Delete">
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <button type="button" class ="btn btn-secondary btn-sm"> Update staff information </button>
             </form>
+          </div>
             
           </article>    
       

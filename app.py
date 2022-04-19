@@ -1,3 +1,4 @@
+from operator import add
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
 import pymysql
@@ -349,10 +350,24 @@ def delete_vehicle(vehicleID):
     c.execute(query)
     conn.commit()
     return redirect(url_for('vehicles'))
-
-
-
-
+#Update farm
+@app.route("/farm/update/<updateName>/<updateAddress>",methods = ['GET','POST'])
+def update_farm(updateName ,updateAddress):
+    form = FarmAddForm()
+    if form.validate_on_submit():
+            
+            c = conn.cursor()
+            query = f"UPDATE farm\
+                     SET FarmName = '{form.name.data}', Address = '{form.address.data}'\
+                     WHERE FarmName = '{updateName}'"
+            c.execute(query)
+            conn.commit()
+            
+            flash(f'Farm {updateName} updated', 'success')
+            return redirect(url_for('farm'))
+    return render_template("update_farm.html", updateName = updateName , updateAddress = updateAddress, form = form)
+    
+   
 if __name__ == "__main__":
     app.run(debug = True)
     

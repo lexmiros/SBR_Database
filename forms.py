@@ -34,8 +34,9 @@ class CattleAddForm(FlaskForm):
 
 class FarmAddForm(FlaskForm):
     name = StringField("Name of the farm: ",validators=[DataRequired(), Length(min = 2, max = 20)] )
-    address = StringField("Address : Street # Street name, Suburb, State, Postcode ", validators=[DataRequired()])
+    address = StringField("Address : Street # Street name, Suburb, State, Postcode :", validators=[DataRequired()])
     submit = SubmitField("Add Farm")
+    submit_update = SubmitField("Update Farm")
 
 class PaddockAddFrom(FlaskForm):
     paddockName = StringField("Name of the paddock : ", validators=[DataRequired(), Length(min = 2, max = 20)] )

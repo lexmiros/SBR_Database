@@ -15,9 +15,6 @@
             <div class="article-metadata">
               <a class="mr-2" href="#">Vehicle ID : {{ post.VehicleID }}</a>
             </div>
-            <div>
-              <button type="button" class ="btn btn-secondary btn-sm"> Update vehicles information </button>
-              </div>
             <p class="article-content"><b> Model : </b>{{ post.Model }} </p>
             <p class="article-content"><b> Farm location : </b>{{ post.FarmName }} </p>
             <p class="article-content"><b> Purchase date: </b>{{ post.PurchaseDate }} </p>
@@ -26,17 +23,20 @@
             {% if post.EngineCC %}
             <p class="article-content"><b> Vehicle type: </b> Motorbike </p>
             <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
-              <input class="btn btn-danger" type="submit" value="Delete">
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <button type="button" class ="btn btn-secondary btn-sm"> Update vehicle information </button>
             </form>          
             {% elif post.RollCage %}
             <p class="article-content"><b> Vehicle type: </b> Quadbike </p>
             <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
-              <input class="btn btn-danger" type="submit" value="Delete">
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <button type="button" class ="btn btn-secondary btn-sm"> Update vehicle information </button>
             </form>
             {% elif post.NumberOfSeats %}
             <p class="article-content"><b> Vehicle type: </b> Buggy </p>
             <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
-              <input class="btn btn-danger" type="submit" value="Delete">
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <button type="button" class ="btn btn-secondary btn-sm"> Update vehicle information </button>
             </form>
             {% endif %}
             
