@@ -367,7 +367,43 @@ def update_farm(updateName ,updateAddress):
             return redirect(url_for('farm'))
     return render_template("update_farm.html", updateName = updateName , updateAddress = updateAddress, form = form)
     
-   
+#Update paddock
+@app.route("/farm/update/<paddockName>/<size>/<grass>/<farm>",methods = ['GET','POST'])
+def update_paddock(paddockName ,size, grass, farm):
+    form = PaddockAddFrom()
+    if form.validate_on_submit():
+            
+            c = conn.cursor()
+            query = f"UPDATE paddock\
+                     SET PaddockName = '{form.paddockName.data}', Size = '{form.size.data}'\
+                    , GrassCondition = '{form.grassCondition.data}', FarmName = '{form.farmName.data}'\
+                     WHERE PaddockName = '{paddockName}'"
+            c.execute(query)
+            conn.commit()
+            
+            flash(f'Paddock {paddockName} updated', 'success')
+            return redirect(url_for('paddock'))
+    return render_template("update_paddock.html",paddockName = paddockName, size = size, grass = grass, farm = farm , form = form) 
+
+#Update cattle
+@app.route("/farm/update/<ID>/<sex>/<breed>/<dob>/<weight>/<paddockName>/<dateMoved>",methods = ['GET','POST'])
+def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
+    form = CattleAddForm()
+    if form.validate_on_submit():
+            
+            c = conn.cursor()
+            query = f"UPDATE cattle\
+                     SET CattleID = '{form.ID.data}', Sex = '{form.sex.data}', Breed = '{form.breed.data}', DateOfBirth = '{form.dateOfBirth.data}',\
+                     Weight = '{form.weight.data}', PaddockName = '{form.paddockName.data}', DateMoved = '{form.dateMoved.data}'\
+                     WHERE cattleID = '{ID}'"
+            c.execute(query)
+            conn.commit()
+            
+            flash(f'Cattle {ID} updated', 'success')
+            return redirect(url_for('cattle'))
+    return render_template("update_cattle.html",ID = ID, sex = sex, breed = breed, dob = dob, weight = weight, paddockName = paddockName, dateMoved = dateMoved, form = form)      
+
+
 if __name__ == "__main__":
     app.run(debug = True)
     

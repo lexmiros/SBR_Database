@@ -24,13 +24,15 @@ class StaffAddFrom(FlaskForm):
     submit = SubmitField("Add Staff")
 
 class CattleAddForm(FlaskForm):
+    ID = IntegerField("Cattle ID : ", validators=[DataRequired()])
     sex = SelectField("Sex: ", choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
-    breed = SelectField("Brred: ", choices=[('Belmont Red', 'Belmont Red'), ('Angus', 'Angus'), ('Cross', 'Cross')], validators=[DataRequired()])
+    breed = SelectField("Breed: ", choices=[('Belmont Red', 'Belmont Red'), ('Angus', 'Angus'), ('Cross', 'Cross')], validators=[DataRequired()])
     dateOfBirth = DateField("Date of birth", validators=[DataRequired()])
     weight = DecimalField("Weight", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
     paddockName = StringField("Paddock name: ", validators=[DataRequired()])
     dateMoved = DateField("Date moved to paddock", validators=[DataRequired()])
     submit = SubmitField("Add Cattle")
+    submit_update = SubmitField("Update Cattle")
 
 class FarmAddForm(FlaskForm):
     name = StringField("Name of the farm: ",validators=[DataRequired(), Length(min = 2, max = 20)] )
@@ -44,6 +46,7 @@ class PaddockAddFrom(FlaskForm):
     grassCondition = SelectField("Grass condition : ", choices=[('Green', 'Green'), ('Dry', 'Dry')], validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])
     submit = SubmitField("Add Paddock")
+    submit_update = SubmitField("Update Paddock")
 
 class BinAddForm(FlaskForm):
     binNumber = IntegerField("Bin number", validators=[DataRequired()])

@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{form.hidden_tag()}}
+        <fieldset class = "form-group">
+            <legend class="border-bottom mb-4"> Add Paddock</legend>
+            
+            
+            <div class="form-group">
+               <b> {{form.paddockName.label(class="form-control-label")}}  </b> {{paddockName}}
+
+                {% if form.paddockName.errors %}
+                    {{form.paddockName(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.paddockName.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.paddockName(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.size.label(class="form-control-label") }} </b> {{size}}
+
+                {% if form.size.errors %}
+                    {{form.size(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.size.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.size(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+               <b> {{form.grassCondition.label(class="form-control-label") }} </b> {{grass}}
+
+                {% if form.grassCondition.errors %}
+                    {{form.grassCondition(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.grassCondition.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.grassCondition(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.farmName.label(class="form-control-label") }}</b> {{farm}}
+
+                {% if form.farmName.errors %}
+                    {{form.farmName(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.farmName.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.farmName(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+
+        </fieldset>
+
+        <div class="form-group">
+            {{form.submit_update(class="btn btn-outline-info")}}
+        </div>
+    </form>
+    
+</div>
+
+{% endblock content %}
+
+
+
