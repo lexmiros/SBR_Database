@@ -25,12 +25,21 @@
            
             {% if post.EngineCC %}
             <p class="article-content"><b> Vehicle type: </b> Motorbike </p>
+            <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>          
             {% elif post.RollCage %}
             <p class="article-content"><b> Vehicle type: </b> Quadbike </p>
+            <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
             {% elif post.NumberOfSeats %}
             <p class="article-content"><b> Vehicle type: </b> Buggy </p>
+            <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
             {% endif %}
-            <button type="button" class ="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"> Delete </button>
+            
           </div>
         </article>
         

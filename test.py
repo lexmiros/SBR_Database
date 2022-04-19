@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
+from app import delete_vehicle
 from forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
 import pymysql
 
@@ -17,10 +18,4 @@ conn = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor
                              )
 
-conn.row_factory = dict_factory
-c = conn.cursor()
-c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
-posts = c.fetchall()
-for post in posts:
-    print(post["MAX(VehicleID)"])
-
+delete_vehicle(10, "Quadbike")

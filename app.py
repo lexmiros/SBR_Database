@@ -171,7 +171,6 @@ def bin_add():
     return render_template("bin_add.html", form = form, title = "Add bin")
 
 #Add motorbike
-##INCOMPLETE
 @app.route("/motorbike_add", methods = ['GET', 'POST'])
 def motorbike_add():
     form = MotorbikeAddForm()
@@ -212,6 +211,7 @@ def motorbike_add():
 
     return render_template("motorbike_add.html", form = form, title = "Add motorbike")
 
+#Add buggy
 @app.route("/buggies_add", methods = ['GET', 'POST'])
 def buggies_add():
     form = BuggiesAddForm()
@@ -252,6 +252,7 @@ def buggies_add():
 
     return render_template("buggies_add.html", form = form)
 
+#Add quadbike
 @app.route("/quadbike_add", methods = ['GET', 'POST'])
 def quadbike_add():
     form = QuadbikeAddForm()
@@ -337,6 +338,17 @@ def delete_paddock(paddockName):
     conn.commit()
     return redirect(url_for('paddock'))
 
+#Delete vehicles 
+@app.route("/vehicles/delete<vehicleID>", methods=['POST'])
+def delete_vehicle(vehicleID): 
+     
+    #Delete from vehicles  
+    #Deletes on casecade to also remove from vehicle_brands and specilisation table
+    c = conn.cursor()
+    query = f"DELETE FROM vehicles WHERE VehicleID = '{vehicleID}'"
+    c.execute(query)
+    conn.commit()
+    return redirect(url_for('vehicles'))
 
 
 
