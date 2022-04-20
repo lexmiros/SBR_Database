@@ -13,15 +13,16 @@ Forms for select functionality
 Forms for insert fucnitonality 
 """
 class StaffAddFrom(FlaskForm):
-    #staffID = IntegerField("Staff ID")
-    firstName = StringField('FirstName', validators=[DataRequired(), Length(min = 2, max = 20)])
-    lastName = StringField('LastName', validators=[DataRequired(), Length(min = 2, max = 20)])
-    dateOfBirth = DateField("Date of birth", validators=[DataRequired()])
-    startDate = DateField("Start Date", validators=[DataRequired()])
-    managerID = StringField("Manager ID if applicable")
-    farmLoc = StringField("Staff's primary farm", validators=[DataRequired()])
-    contactNumber = IntegerField("Primary Contact Number", validators=[DataRequired()])
+    staffID = IntegerField("Staff ID", validators=[DataRequired()])
+    firstName = StringField('FirstName : ', validators=[DataRequired(), Length(min = 2, max = 20)])
+    lastName = StringField('LastName : ', validators=[DataRequired(), Length(min = 2, max = 20)])
+    dateOfBirth = DateField("Date of birth : ", validators=[DataRequired()])
+    startDate = DateField("Start Date : ", validators=[DataRequired()])
+    managerID = StringField("Manager ID if applicable : ")
+    farmLoc = StringField("Staff's primary farm : ", validators=[DataRequired()])
+    contactNumber = IntegerField("Primary Contact Number : ", validators=[DataRequired()])
     submit = SubmitField("Add Staff")
+    submit_update = SubmitField("Update Staff")
 
 class CattleAddForm(FlaskForm):
     ID = IntegerField("Cattle ID : ", validators=[DataRequired()])

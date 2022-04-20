@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{form.hidden_tag()}}
+        <fieldset class = "form-group">
+            <legend class="border-bottom mb-4"> Update Staff : {{first}}  {{last}} ID : {{staffID}}</legend>
+            
+            
+            <div class="form-group">
+                <b>{{form.staffID.label(class="form-control-label")}}</b>  {{staffID}}
+
+                {% if form.staffID.errors %}
+                    {{form.staffID(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.staffID.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.staffID(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+
+            <div class="form-group">
+                <b>{{form.firstName.label(class="form-control-label")}}</b>  {{first}}
+
+                {% if form.firstName.errors %}
+                    {{form.firstName(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.firstName.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.firstName(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.lastName.label(class="form-control-label")}}</b>  {{last}}
+
+                {% if form.lastName.errors %}
+                    {{form.lastName(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.lastName.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.lastName(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.dateOfBirth.label(class="form-control-label")}} </b>{{dob}}
+
+                {% if form.dateOfBirth.errors %}
+                    {{form.dateOfBirth(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.dateOfBirth.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.dateOfBirth(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.startDate.label(class="form-control-label")}} </b>{{startDate}}
+
+                {% if form.startDate.errors %}
+                    {{form.startDate(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.startDate.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.startDate(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.managerID.label(class="form-control-label")}} </b>{{managerID}}
+
+                {% if form.managerID.errors %}
+                    {{form.managerID(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.managerID.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.managerID(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.farmLoc.label(class="form-control-label")}} </b>{{farm}}
+
+                {% if form.farmLoc.errors %}
+                    {{form.farmLoc(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.farmLoc.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.farmLoc(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+            <div class="form-group">
+                <b>{{form.contactNumber.label(class="form-control-label")}} </b>{{number}}
+
+                {% if form.contactNumber.errors %}
+                    {{form.contactNumber(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.contactNumber.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.contactNumber(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            {{form.submit_update(class="btn btn-outline-info")}}
+        </div>
+    </form>
+    
+</div>
+{% endblock content %}
+
+
+

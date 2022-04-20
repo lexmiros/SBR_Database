@@ -21,11 +21,11 @@
             <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
             <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
             <form action="{{ url_for('update_cattle', ID = post.CattleID, sex = post.Sex, breed = post.Breed, dob = post.DateOfBirth, weight = post.Weight, paddockName = post.PaddockName, dateMoved = post.DateMoved)}}", method = "POST">
-              <input class="btn btn-secondary btn-sm" type="submit" value="Update">
+              <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update">
             </form>
             <p></p>
             <form action="{{ url_for('delete_cattle', cattleID = post.CattleID)}}", method = "POST">
-              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete">
             </form>
           </div>
         </article>

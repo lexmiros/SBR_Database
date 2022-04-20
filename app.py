@@ -350,6 +350,7 @@ def delete_vehicle(vehicleID):
     c.execute(query)
     conn.commit()
     return redirect(url_for('vehicles'))
+
 #Update farm
 @app.route("/farm/update/<updateName>/<updateAddress>",methods = ['GET','POST'])
 def update_farm(updateName ,updateAddress):
@@ -403,6 +404,23 @@ def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
             return redirect(url_for('cattle'))
     return render_template("update_cattle.html",ID = ID, sex = sex, breed = breed, dob = dob, weight = weight, paddockName = paddockName, dateMoved = dateMoved, form = form)      
 
+
+#Update staff
+@app.route("/staff/update/<staffID>/<first>/<last>/<dob>/<farm>/<startDate>/<number>/<managerID>",methods = ['GET','POST'])
+def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID):
+    form = StaffAddFrom()
+    if form.validate_on_submit():
+            
+            c = conn.cursor()
+            query = f"UPDATE staff\
+                     SET StaffID = '{form.staffID.data}', FirstName = '{form.firstName.data}', LastName = '{form.lastName.data}', DateOfBirth = '{form.dateOfBirth.data}', FarmName = '{form.farmLoc.data}', StartDate = '{form.startDate.data}', ManagerID = '{form.managerID.data}', PrimaryContactNumber = '{form.contactNumber.data}' \
+                     WHERE StaffID = '{staffID}'"
+            c.execute(query)
+            conn.commit()
+            
+            flash(f'Staff member {staffID} updated', 'success')
+            return redirect(url_for('staff_home'))
+    return render_template("update_staff.html",staffID = staffID, first = first, last = last,  dob = dob, farm = farm, startDate = startDate, number = number, managerID = managerID,  form = form)
 
 if __name__ == "__main__":
     app.run(debug = True)
