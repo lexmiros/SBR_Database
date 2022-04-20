@@ -139,7 +139,7 @@ def cattle_add():
 def staff_add():   
     form = StaffAddFrom()
     if form.validate_on_submit():
-        #print(form.dateOfBirth.data)
+        
         c = conn.cursor()
 
         query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, ManagerID, PrimaryContactNumber)\
@@ -153,23 +153,23 @@ def staff_add():
     return render_template("staff_add.html", form = form, title = "Add staff")
 
 #Add feed bin
-@app.route("/bin_add", methods = ['GET', 'POST'])
-def bin_add():
+@app.route("/bin_add/<paddockName>", methods = ['GET','POST'])
+def bin_add(paddockName):   
     form = BinAddForm()
     if form.validate_on_submit():
+       
+        
         c = conn.cursor()
 
-        query = f"INSERT INTO feed_bins(BinNumber, PaddockName, LastChecked, BinContains, BinLevel) \
-        VALUES('{form.binNumber.data}','{form.paddockName.data}','{form.lastChecked.data}','{form.binContains.data}','{form.binLevel.data}')"
-
-        c.execute(query)
-        conn.commit()
-
-        flash(f"Bin {form.binNumber.data} added in paddock {form.paddockName.data}")
-
+        query = f"insert into feed_bins(BinNumber, PaddockName, LastChecked, BinContains, BinLevel)\
+         VALUES ('{form.binNumber.data}','{paddockName}','{str(form.lastChecked.data)}','{form.binContains.data}','{str(form.binLevel.data)}')"
+        c.execute(query) 
+        conn.commit() 
+        
+        flash(f'Bin {form.binNumber.data} created for {paddockName}', 'success')
         return redirect(url_for('paddock'))
-
-    return render_template("bin_add.html", form = form, title = "Add bin")
+        
+    return render_template("bin_add.html", form = form, paddockName = paddockName)
 
 #Add motorbike
 @app.route("/motorbike_add", methods = ['GET', 'POST'])

@@ -51,11 +51,10 @@ class PaddockAddFrom(FlaskForm):
 
 class BinAddForm(FlaskForm):
     binNumber = IntegerField("Bin number", validators=[DataRequired()])
-    paddockName = StringField("Name of the paddock : ", validators=[DataRequired(), Length(min = 2, max = 20)] )
+    #paddockName = StringField("Name of the paddock : ", validators=[DataRequired(), Length(min = 2, max = 20)] )
     lastChecked = DateField("Date bin was last checked :", validators=[DataRequired()])
     binContains = SelectField("Bin contains ", choices=[('Wheat', 'Wheat'), ('Salt Lick', 'Salt Lick'), ('Sorghum','Sorghum')], validators=[DataRequired()])
     binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
-    
     submit = SubmitField("Add Bin")
 
 class MotorbikeAddForm(FlaskForm):
