@@ -1,6 +1,6 @@
 from operator import add
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import BinAddForm, BinUpdateForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
+from forms import BinAddForm, BinUpdateForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, MotorbikeUpdateForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
 import pymysql
 
 
@@ -461,6 +461,41 @@ def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID)
             return redirect(url_for('staff_home'))
     return render_template("update_staff.html",staffID = staffID, first = first, last = last,  dob = dob, farm = farm, startDate = startDate, number = number, managerID = managerID,  form = form)
 
+#Update motorbike
+@app.route("/vehicles/motorbikes/<vehicleID>/<model>/<farm>/<date>/<brand>/<engine>",methods = ['GET','POST'])
+def update_motorbike(vehicleID, model, farm, date, brand, engine):
+    form = MotorbikeUpdateForm()
+    if form.validate_on_submit():  
+            #update vehicles table
+            c = conn.cursor()
+            query = f"UPDATE vehicles\
+                     SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
+                     WHERE VehicleID = '{vehicleID}'"
+            c.execute(query)
+            conn.commit()
+            
+            #update brands table
+            #use new vehicle ID as vehicles table set to cascade update
+            c = conn.cursor()
+            query = f"UPDATE vehicle_brands\
+                     SET Brand = '{form.brand.data}'\
+                     WHERE VehicleID = '{form.vehicleID.data}'"
+            c.execute(query)
+            conn.commit()
+
+            #update motorbikes table
+            #use new vehicle ID as vehicles table set to cascade update
+            c = conn.cursor()
+            query = f"UPDATE motorbikes\
+                     SET EngineCC = '{form.engineCC.data}'\
+                     WHERE VehicleID = '{form.vehicleID.data}'"
+            c.execute(query)
+            conn.commit()
+            
+            
+            flash(f'Motorbike {vehicleID} updated', 'success')
+            return redirect(url_for('vehicles'))
+    return render_template("update_motorbike.html",vehicleID = vehicleID, model = model, farm = farm, date = date, brand = brand, engine = engine,  form = form)
 
 if __name__ == "__main__":
     app.run(debug = True)

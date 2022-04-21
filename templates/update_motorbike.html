@@ -1,0 +1,118 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{form.hidden_tag()}}
+            <fieldset class = "form-group">
+                <legend class="border-bottom mb-4"> Update Motorbike {{vehicleID}}</legend>
+                
+                <div class="form-group">
+                    <b> {{form.vehicleID.label(class="form-control-label") }} </b> {{vehicleID}}
+ 
+                     {% if form.vehicleID.errors %}
+                         {{form.vehicleID(class="form-control form-control-lg is-invalid") }}
+                             <div class="invalid-feedback">
+                                 {% for error in form.vehicleID.errors %}
+                                     <span> {{ error }}</span>
+                                 {% endfor %}
+                             </div>
+                         {% else %}
+                             {{form.vehicleID(class="form-control form-control-lg") }}
+                     {%endif%}
+                     
+                 </div>
+
+                <div class="form-group">
+                   <b> {{form.model.label(class="form-control-label") }} </b> {{model}}
+
+                    {% if form.model.errors %}
+                        {{form.model(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.model.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.model(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+                
+                <div class="form-group">
+                   <b> {{form.brand.label(class="form-control-label") }}</b> {{brand}}
+
+                    {% if form.brand.errors %}
+                        {{form.brand(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.brand.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.brand(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+
+                <div class="form-group">
+                    <b>{{form.purchaseDate.label(class="form-control-label") }} </b> {{date}}
+
+                    {% if form.purchaseDate.errors %}
+                        {{form.purchaseDate(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.purchaseDate.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.purchaseDate(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+
+                <div class="form-group">
+                    <b>{{form.farmName.label(class="form-control-label") }} </b> {{farm}}
+
+                    {% if form.farmName.errors %}
+                        {{form.farmName(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.farmName.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.farmName(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+
+                <div class="form-group">
+                    <b>{{form.engineCC.label(class="form-control-label") }} </b> {{engine}}
+
+                    {% if form.engineCC.errors %}
+                        {{form.engineCC(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.engineCC.errors %}
+                                    <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{form.engineCC(class="form-control form-control-lg") }}
+                    {%endif%}
+                    
+                </div>
+                </div>
+
+
+            </fieldset>
+
+            <div class="form-group">
+                {{form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
+        
+    </div>
+   
+{% endblock content %}
