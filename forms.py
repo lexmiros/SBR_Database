@@ -92,6 +92,7 @@ class QuadbikeAddForm(FlaskForm):
     submit = SubmitField("Add Quadbike")
 
 class QuadbikeUpdateForm(FlaskForm):
+    vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
     brand = StringField("Vehicle brand : ", validators=[DataRequired()])
     farmName = StringField("Containing farm name : ", validators=[DataRequired()])

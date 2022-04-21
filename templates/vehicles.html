@@ -21,26 +21,41 @@
             <p class="article-content"><b> Vehicle brand: </b>{{ post.Brand }} </p>
            
             {% if post.EngineCC %}
+
             <p class="article-content"><b> Vehicle type: </b> Motorbike </p>
             <p class="article-content"><b> Engine CC : </b>{{ post.EngineCC }} </p>
             <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
               <input class="btn btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
             </form> 
+
             <form action="{{ url_for('update_motorbike', vehicleID = post.VehicleID, model = post.Model, farm = post.FarmName, date = post.PurchaseDate, brand = post.Brand, engine = post.EngineCC)}}", method = "POST">
               <input class="btn btn-secondary btn-sm" type="submit" value="Update motorbike" style ="float: right;">
             </form>              
             {% elif post.RollCage %}
+            
             <p class="article-content"><b> Vehicle type: </b> Quadbike </p>
+            <p class="article-content"><b> Roll Cage : </b> {{post.RollCage}} </p>
+
             <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
-              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
-             
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete", style ="float: right;">
             </form>
+
+            <form action="{{ url_for('update_quadbike', vehicleID = post.VehicleID, model = post.Model, farm = post.FarmName, date = post.PurchaseDate, brand = post.Brand, rollCage = post.RollCage)}}", method = "POST">
+              <input class="btn btn-secondary btn-sm" type="submit" value="Update quadbike" style ="float: right;">
+            </form>         
+
             {% elif post.NumberOfSeats %}
+
             <p class="article-content"><b> Vehicle type: </b> Buggy </p>
+            <p class="article-content"><b> Number of seats: </b> {{post.NumberOfSeats}}</p>
+            
             <form action="{{ url_for('delete_vehicle', vehicleID = post.VehicleID)}}", method = "POST">
-              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
-              
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
             </form>
+
+            <form action="{{ url_for('update_buggy', vehicleID = post.VehicleID, model = post.Model, farm = post.FarmName, date = post.PurchaseDate, brand = post.Brand, numberOfSeats = post.NumberOfSeats)}}", method = "POST">
+              <input class="btn btn-secondary btn-sm" type="submit" value="Update buggy" style ="float: right;">
+            </form>  
             {% endif %}
             
           </div>
