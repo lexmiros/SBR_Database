@@ -19,8 +19,6 @@ conn = pymysql.connect(host='localhost',
                              )
 conn.row_factory = dict_factory
 c = conn.cursor()
-c.execute(f"SELECT COUNT(staffID) FROM staff WHERE FarmName = 'Farm1' ")
-staffNumbers = c.fetchall()
-for numbers in staffNumbers:
-    print(numbers["COUNT(staffID)"])
-
+c.execute("SELECT * FROM paddock WHERE FarmName = 'Farm1'")
+posts = c.fetchall()
+print(posts)

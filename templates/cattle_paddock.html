@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-<a class="btn btn-primary" href="{{url_for('cattle_add')}}" role="button">Add Cattle</a>
+
 <div>
   <p>
-
   </p>
 </div>
     {% for post in posts %}
@@ -21,11 +20,11 @@
             <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
             <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
             <form action="{{ url_for('update_cattle', ID = post.CattleID, sex = post.Sex, breed = post.Breed, dob = post.DateOfBirth, weight = post.Weight, paddockName = post.PaddockName, dateMoved = post.DateMoved)}}", method = "POST">
-              <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
+              <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update">
             </form>
             <p></p>
             <form action="{{ url_for('delete_cattle', cattleID = post.CattleID)}}", method = "POST">
-              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
+              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete">
             </form>
           </div>
         </article>

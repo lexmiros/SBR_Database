@@ -81,6 +81,32 @@ def farm_stats(farmName):
 
 
     return render_template('farm_stats.html', staffNumbers = countStaff, paddockNumbers = countPaddock, vehicleNumbers = countVehicles, farmName = farmName, cattleNumbers = countCattle)
+#View paddocks based on farm name
+@app.route("/farm/paddock/<farmName>", methods = ["POST", "GET"])
+def paddock_farm(farmName):
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM paddock WHERE FarmName = '{farmName}'")
+    posts = c.fetchall()
+    return render_template('paddock.html', posts=posts, farmName = farmName )
+
+#View staff based on farm name
+@app.route("/farm/paddock/<farmName>", methods = ["POST", "GET"])
+def staff_farm(farmName):
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM staff WHERE FarmName = '{farmName}'")
+    posts = c.fetchall()
+    return render_template('staff.html', posts=posts, farmName = farmName )
+
+#View cattle based on farm name
+@app.route("/farm/cattle/<farmName>", methods = ["POST", "GET"])
+def cattle_farm(farmName):
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM cattle WHERE PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' );")
+    posts = c.fetchall()
+    return render_template('cattle.html', posts=posts, farmName = farmName )
 
 #Paddock view
 @app.route("/paddock")
@@ -109,6 +135,24 @@ def cattle():
     c.execute("SELECT * FROM cattle")
     posts = c.fetchall()
     return render_template('cattle.html', posts=posts)
+
+#Cattle for specific paddock
+@app.route("/cattle/<paddockName>", methods = ['GET', 'POST'])
+def cattle_paddock(paddockName):
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM cattle\
+        WHERE PaddockName = '{paddockName}'")
+    posts = c.fetchall()
+
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(CattleID) FROM cattle\
+        WHERE PaddockName = '{paddockName}'")
+    posts_count = c.fetchall()
+    for post in posts_count:
+        cattleCount = post["COUNT(CattleID)"]
+    return render_template('cattle.html', posts=posts, paddockName = paddockName, cattleCount = cattleCount)
 
 #Vehicle pages
 @app.route("/vehicles")

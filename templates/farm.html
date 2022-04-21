@@ -9,16 +9,27 @@
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">Farm Name : {{ post.FarmName }}</a>
+              <a class="mr-2"><b>{{ post.FarmName }}</b></a>
             </div>
           
             
             <p class="article-content"><b>Address : </b>{{ post.Address }}</p>
               <div>
-                
                 <form action="{{ url_for('farm_stats', farmName = post.FarmName)}}", method = "POST">
                   <input class="btn-grp btn-info btn-sm" type="submit" value="View stats" style ="float: left;">
                 </form>
+                <form action="{{ url_for('paddock_farm', farmName = post.FarmName)}}", method = "POST">
+                  <input class="btn-grp btn-info btn-sm" type="submit" value="View paddocks" style ="float: left;">
+                </form>
+                <form action="{{ url_for('cattle_farm', farmName = post.FarmName)}}", method = "POST">
+                  <input class="btn-grp btn-info btn-sm" type="submit" value="View cattle" style ="float: left;">
+                </form>
+                <form action="{{ url_for('staff_farm', farmName = post.FarmName)}}", method = "POST">
+                  <input class="btn-grp btn-info btn-sm" type="submit" value="View staff" style ="float: left;">
+                </form>
+              
+              </div>
+                <div>
                 <form action="{{ url_for('update_farm', updateName = post.FarmName, updateAddress = post.Address)}}", method = "POST">
                   <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
                 </form>
