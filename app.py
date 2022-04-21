@@ -847,16 +847,58 @@ def paddock_farm(farmName):
     c = conn.cursor()
     c.execute(f"SELECT * FROM paddock WHERE FarmName = '{farmName}'")
     posts = c.fetchall()
-    return render_template('paddock.html', posts=posts, farmName = farmName )
+
+    #Find total paddocks
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(PaddockName) FROM paddock WHERE FarmName = '{farmName}'")
+    paddocks = c.fetchall()
+    for paddock in paddocks:
+       countName =  paddock["COUNT(PaddockName)"]
+
+    #Find average paddock size
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT AVG(Size) FROM paddock  WHERE FarmName = '{farmName}'")
+    sizes = c.fetchall()
+    for size in sizes:
+        avgSize = round(size["AVG(Size)"],2)
+
+    #Find all paddocks with grass conditon = green
+
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(PaddockName) FROM paddock WHERE GrassCondition = 'Green' AND FarmName = '{farmName}'")
+    conditions = c.fetchall()
+    for condition in conditions:
+        green = condition["COUNT(PaddockName)"]
+
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(PaddockName) FROM paddock WHERE GrassCondition = 'Dry' AND FarmName = '{farmName}'")
+    conditions = c.fetchall()
+    for condition in conditions:
+        dry = condition["COUNT(PaddockName)"]
+
+    return render_template('paddock.html', posts=posts, farmName = farmName, countName = countName, avgSize = avgSize, green = green, dry = dry )
 
 #View staff based on farm name
-@app.route("/farm/paddock/<farmName>", methods = ["POST", "GET"])
+@app.route("/farm/staff/<farmName>", methods = ["POST", "GET"])
 def staff_farm(farmName):
     conn.row_factory = dict_factory
     c = conn.cursor()
     c.execute(f"SELECT * FROM staff WHERE FarmName = '{farmName}'")
     posts = c.fetchall()
-    return render_template('staff.html', posts=posts, farmName = farmName )
+
+    #Find total number of staff
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(StaffID) FROM staff WHERE FarmName = '{farmName}';")
+    totalCount = c.fetchall()
+    for count in totalCount:
+        staffCount = count["COUNT(StaffID)"]
+
+    return render_template('staff.html', posts=posts, farmName = farmName, staffCount = staffCount )
 
 #View cattle based on farm name
 @app.route("/farm/cattle/<farmName>", methods = ["POST", "GET"])
@@ -932,7 +974,39 @@ def vehicle_farm(farmName):
     c.execute(f"SELECT * FROM vehicles INNER JOIN vehicle_brands ON vehicles.VehicleID=vehicle_brands.VehicleID AND vehicles.FarmName = '{farmName}' LEFT JOIN motorbikes ON vehicles.VehicleID=motorbikes.VehicleID LEFT JOIN quadbikes ON vehicles.VehicleID=quadbikes.VehicleID LEFT JOIN buggies ON vehicles.VehicleID=buggies.VehicleID;")
     posts = c.fetchall()
 
-    return render_template('vehicles.html', posts=posts, farmName = farmName )
+    #Find total vehicles
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(VehicleID) FROM vehicles WHERE FarmName = '{farmName}';")
+    totalVehicles = c.fetchall()
+    for vehicle in totalVehicles:
+        countVehicle = vehicle["COUNT(VehicleID)"]
+    
+    #Find total motorbikes
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(VehicleID) FROM vehicles WHERE VehicleID IN ( SELECT VehicleID FROM motorbikes ) AND FarmName = '{farmName}';")
+    totalMotorbikes= c.fetchall()
+    for vehicle in totalMotorbikes:
+        countMotorbikes = vehicle["COUNT(VehicleID)"]
+
+    #Find total quadbikes 
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(VehicleID) FROM vehicles WHERE VehicleID IN ( SELECT VehicleID FROM quadbikes ) AND FarmName = '{farmName}';")
+    totalQuadbikes = c.fetchall()
+    for vehicle in totalQuadbikes :
+        countQuadbikes  = vehicle["COUNT(VehicleID)"]
+
+    #Find total buggies 
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(VehicleID) FROM vehicles WHERE VehicleID IN ( SELECT VehicleID FROM buggies ) AND FarmName = '{farmName}';")
+    totalBuggies = c.fetchall()
+    for vehicle in totalBuggies :
+        countBuggies  = vehicle["COUNT(VehicleID)"]
+
+    return render_template('vehicles.html', posts=posts, farmName = farmName, countVehicle = countVehicle, countMotorbikes = countMotorbikes, countQuadbikes = countQuadbikes, countBuggies = countBuggies )
 
 
 #Farm Stats
