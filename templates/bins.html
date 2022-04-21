@@ -35,6 +35,14 @@
      
     {% endfor %}
 {% endblock content %}
-
+{%block overview%}
+                 <li class="list-group-item list-group-item-light">Total bins : {{countBins}}</li>
+                 <li class="list-group-item list-group-item-light"> Average level : {{avgLevel}} </li>
+                 <li class="list-group-item list-group-item-light"> Contains Wheat : {{wheatBins}} </li>
+                 <li class="list-group-item list-group-item-light">Contains Sorghum : {{sorghumBins}}</li>
+                 <li class="list-group-item list-group-item-light">Contains Salt Lick : {{saltBins}}</li>
+                  
+                  
+{% endblock overview %}
 
 

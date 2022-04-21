@@ -63,6 +63,12 @@
         
     {% endfor %}
 {% endblock content %}
-
+{%block overview%}
+                  <li class="list-group-item list-group-item-light">Total vehicles : {{countVehicle}}</li>
+                  <li class="list-group-item list-group-item-light">Total motorbikes : {{countMotorbikes}} </li>
+                  <li class="list-group-item list-group-item-light">Total quadbikes : {{countQuadbikes}} </li>
+                  <li class="list-group-item list-group-item-light">Total buggies : {{countBuggies}}</li>
+                  
+{% endblock overview %}
 
 

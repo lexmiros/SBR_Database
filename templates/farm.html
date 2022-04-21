@@ -27,6 +27,9 @@
                 <form action="{{ url_for('staff_farm', farmName = post.FarmName)}}", method = "POST">
                   <input class="btn-grp btn-info btn-sm" type="submit" value="View staff" style ="float: left;">
                 </form>
+                <form action="{{ url_for('vehicle_farm', farmName = post.FarmName)}}", method = "POST">
+                  <input class="btn-grp btn-info btn-sm" type="submit" value="View vehicles" style ="float: left;">
+                </form>
               
               </div>
                 <div>
@@ -45,6 +48,10 @@
        
     {% endfor %}
 {% endblock content %}
+{%block overview%}
+                  <li class="list-group-item list-group-item-light">Total Farms : {{countName}}</li>
+              
+{% endblock overview %}
 
 
 

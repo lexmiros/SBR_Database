@@ -58,14 +58,14 @@
             {% endwith %}
             {% block content %}{% endblock %}
           </div>
+          
           <div class="col-md-4">
+            
             <div class="content-section">
-              <h3>Options</h3>
+              <h3>Overview</h3>
                 <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Home</li>
-                  <li class="list-group-item list-group-item-light">Cattle</li>
-                  <li class="list-group-item list-group-item-light">Staff</li>
-                  <li class="list-group-item list-group-item-light">Vehicles</li>
+                  {% block overview %}{% endblock %}
+                  
                 </ul>
               </p>
             </div>

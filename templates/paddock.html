@@ -38,5 +38,12 @@
     {% endfor %}
 {% endblock content %}
 
-
+{%block overview%}
+                  <li class="list-group-item list-group-item-light">Total paddocks : {{countName}}</li>
+                  <li class="list-group-item list-group-item-light">Average size : {{avgSize}} </li>
+                  <li class="list-group-item list-group-item-light">Dry : {{dry}} </li>
+                  <li class="list-group-item list-group-item-light">Green : {{green}}</li>
+                  
+                  
+{% endblock overview %}
 

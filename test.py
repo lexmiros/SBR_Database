@@ -1,3 +1,4 @@
+from itertools import count
 from flask import Flask, render_template, url_for, flash, redirect
 from app import delete_vehicle, farm_add, farm_stats, update_farm
 from forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
@@ -19,6 +20,8 @@ conn = pymysql.connect(host='localhost',
                              )
 conn.row_factory = dict_factory
 c = conn.cursor()
-c.execute("SELECT * FROM paddock WHERE FarmName = 'Farm1'")
-posts = c.fetchall()
-print(posts)
+c.execute("SELECT COUNT(VehicleID) FROM buggies;")
+totalBuggies = c.fetchall()
+for vehicle in totalBuggies :
+    countBuggies  = vehicle["COUNT(VehicleID)"]
+print(countBuggies)

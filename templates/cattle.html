@@ -31,7 +31,18 @@
         </article>
      
     {% endfor %}
+    
 {% endblock content %}
 
+{%block overview%}
+                  <li class="list-group-item list-group-item-light">Total Cattle : {{count}}</li>
+                  <li class="list-group-item list-group-item-light">Average weight : {{avgWeight}}kg </li>
+                  <li class="list-group-item list-group-item-light">Males : {{countMale}} </li>
+                  <li class="list-group-item list-group-item-light">Females : {{countFemale}}</li>
+                  <li class="list-group-item list-group-item-light">Belmont Reds : {{countBelmont}}</li>
+                  <li class="list-group-item list-group-item-light">Angus : {{countAngus}} </li>
+                  <li class="list-group-item list-group-item-light">Cross : {{countCross}}</li>
+                  
+{% endblock overview %}
 
 
