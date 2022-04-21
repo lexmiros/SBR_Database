@@ -1,6 +1,6 @@
 from operator import add
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import BinAddForm, BinUpdateForm, BuggiesAddForm, BuggiesUpdateForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, MotorbikeUpdateForm, PaddockAddFrom, QuadbikeAddForm, QuadbikeUpdateForm, StaffAddFrom
+from forms import BinAddForm, BinUpdateForm, BuggiesAddForm, BuggiesUpdateForm, CattleAddForm, CattleUpdateForm, FarmAddForm, MotorbikeAddForm, MotorbikeUpdateForm, PaddockAddFrom, QuadbikeAddForm, QuadbikeUpdateForm, StaffAddFrom
 import pymysql
 
 
@@ -42,7 +42,45 @@ def farm():
     c.execute("SELECT * FROM farm")
     posts = c.fetchall()
     return render_template('farm.html', posts=posts)
-    
+
+#Farm Stats
+@app.route("/farm/stats/<farmName>", methods = ["POST", "GET"])  
+def farm_stats(farmName):
+    #Get total number of staff for the farm
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(staffID) FROM staff WHERE FarmName = '{farmName}' ")
+    staffNumbers = c.fetchall()
+    for numbers in staffNumbers:
+        countStaff = numbers["COUNT(staffID)"]
+
+
+    #Get total number of staff for the paddocks
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(PaddockName) FROM paddock WHERE FarmName = '{farmName}' ")
+    paddockNumbers = c.fetchall()
+    for numbers in paddockNumbers:
+        countPaddock = numbers["COUNT(PaddockName)"]
+
+     #Get total number of staff for the vehicles
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(VehicleID) FROM vehicles WHERE FarmName = '{farmName}' ")
+    vehicleNumbers = c.fetchall()
+    for numbers in vehicleNumbers:
+        countVehicles = numbers["COUNT(VehicleID)"]
+
+    #Get total number of cattle for the vehicles
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT COUNT(CattleID) FROM cattle WHERE PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' );")
+    cattleNumbers = c.fetchall()
+    for numbers in cattleNumbers:
+        countCattle = numbers["COUNT(CattleID)"]
+
+
+    return render_template('farm_stats.html', staffNumbers = countStaff, paddockNumbers = countPaddock, vehicleNumbers = countVehicles, farmName = farmName, cattleNumbers = countCattle)
 
 #Paddock view
 @app.route("/paddock")
@@ -356,7 +394,7 @@ def delete_bin(paddockName, binNumber):
     query = f"DELETE FROM feed_bins WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
     c.execute(query)
     conn.commit()
-    return redirect(url_for('paddock'))
+    return redirect(url_for('feed_bins', paddockName = paddockName))
 
 
 #Delete vehicles 
@@ -428,7 +466,7 @@ def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
 #Update cattle
 @app.route("/farm/update/<ID>/<sex>/<breed>/<dob>/<weight>/<paddockName>/<dateMoved>",methods = ['GET','POST'])
 def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
-    form = CattleAddForm()
+    form = CattleUpdateForm()
     if form.validate_on_submit():
             
             c = conn.cursor()

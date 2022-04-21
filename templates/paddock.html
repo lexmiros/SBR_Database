@@ -11,9 +11,10 @@
               <a class="mr-2" href="#">{{ post.PaddockName }}</a>
             </div>
             <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+            <p class="article-content">Containing farm : {{ post.FarmName}}</p>
             <p class="article-content"> Size : {{ post.Size }} acres </p>
             <p class="article-content">Grass condition : {{ post.GrassCondition }}</p>
-            <p class="article-content">Containing farm : {{ post.FarmName}}</p>
+            
             <div>
             <form action="{{url_for('feed_bins', paddockName = post.PaddockName)}}", method = "POST">
               <input class="btn btn-info btn-sm" type="submit" value="View feed bins" style ="float: left;">

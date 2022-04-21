@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-<a class="btn btn-primary" href="{{url_for('farm_add')}}" role="button">Add Farms</a>
+<a class="btn btn-grp btn-primary" href="{{url_for('farm_add')}}" role="button">Add Farm</a>
 <div>
   <p>
-
   </p>
 </div>
     {% for post in posts %}
@@ -17,12 +16,15 @@
             <p class="article-content"><b>Address : </b>{{ post.Address }}</p>
               <div>
                 
+                <form action="{{ url_for('farm_stats', farmName = post.FarmName)}}", method = "POST">
+                  <input class="btn-grp btn-info btn-sm" type="submit" value="View stats" style ="float: left;">
+                </form>
                 <form action="{{ url_for('update_farm', updateName = post.FarmName, updateAddress = post.Address)}}", method = "POST">
-                  <input class="btn btn-secondary btn-sm" type="submit" value="Update">
+                  <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
                 </form>
                 <p> </p>
                 <form action="{{ url_for('delete_farm', farmName = post.FarmName)}}", method = "POST">
-                  <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                  <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
                 </form>
               </div> 
             

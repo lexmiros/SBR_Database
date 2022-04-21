@@ -25,7 +25,7 @@ class StaffAddFrom(FlaskForm):
     submit_update = SubmitField("Update Staff")
 
 class CattleAddForm(FlaskForm):
-    ID = IntegerField("Cattle ID : ", validators=[DataRequired()])
+
     sex = SelectField("Sex: ", choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
     breed = SelectField("Breed: ", choices=[('Belmont Red', 'Belmont Red'), ('Angus', 'Angus'), ('Cross', 'Cross')], validators=[DataRequired()])
     dateOfBirth = DateField("Date of birth", validators=[DataRequired()])
@@ -33,6 +33,16 @@ class CattleAddForm(FlaskForm):
     paddockName = StringField("Paddock name: ", validators=[DataRequired()])
     dateMoved = DateField("Date moved to paddock", validators=[DataRequired()])
     submit = SubmitField("Add Cattle")
+    submit_update = SubmitField("Update Cattle")
+
+class CattleUpdateForm(FlaskForm):
+    ID = IntegerField("Cattle ID : ", validators=[DataRequired()])
+    sex = SelectField("Sex: ", choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
+    breed = SelectField("Breed: ", choices=[('Belmont Red', 'Belmont Red'), ('Angus', 'Angus'), ('Cross', 'Cross')], validators=[DataRequired()])
+    dateOfBirth = DateField("Date of birth", validators=[DataRequired()])
+    weight = DecimalField("Weight", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
+    paddockName = StringField("Paddock name: ", validators=[DataRequired()])
+    dateMoved = DateField("Date moved to paddock", validators=[DataRequired()])
     submit_update = SubmitField("Update Cattle")
 
 class FarmAddForm(FlaskForm):

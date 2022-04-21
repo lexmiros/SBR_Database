@@ -6,6 +6,12 @@
 
   </p>
 </div>
+<div>
+<form action="{{url_for('bin_add', paddockName = paddockName)}}", method = "POST">
+  <input class="btn btn-primary " type="submit" value="Add bin to {{paddockName}}">
+</form>
+</div>
+<p></p>
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
