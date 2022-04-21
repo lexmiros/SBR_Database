@@ -14,18 +14,23 @@
             <p class="article-content"> Size : {{ post.Size }} acres </p>
             <p class="article-content">Grass condition : {{ post.GrassCondition }}</p>
             <p class="article-content">Containing farm : {{ post.FarmName}}</p>
-            
-            <form action="{{url_for('bin_add', paddockName = post.PaddockName)}}", method = "POST">
-              <input class="btn btn-info btn-sm" type="submit" value="Add bin to paddock">
+            <div>
+            <form action="{{url_for('feed_bins', paddockName = post.PaddockName)}}", method = "POST">
+              <input class="btn btn-info btn-sm" type="submit" value="View feed bins" style ="float: left;">
             </form>
-            <p></p>
+            </div>
+            <div>
+            <form action="{{url_for('bin_add', paddockName = post.PaddockName)}}", method = "POST">
+              <input class="btn btn-info btn-sm " type="submit" value="Add bin to paddock" style ="float: left;" >
+            </form>
+            </div>
 
             <form action="{{ url_for('update_paddock', paddockName = post.PaddockName, size = post.Size, grass = post.GrassCondition, farm = post.FarmName)}}", method = "POST">
-              <input class="btn btn-secondary btn-sm" type="submit" value="Update">
+              <input class="btn btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
             </form>
-            <p></p>
+          
             <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}", method = "POST">
-              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              <input class="btn m-10 btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
             </form>
             
           </div>

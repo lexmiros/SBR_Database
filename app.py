@@ -1,6 +1,6 @@
 from operator import add
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
+from forms import BinAddForm, BinUpdateForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
 import pymysql
 
 
@@ -52,6 +52,16 @@ def paddock():
     c.execute("SELECT * FROM paddock")
     posts = c.fetchall()
     return render_template('paddock.html', posts=posts)
+
+#Bin view
+@app.route("/feed_bins/<paddockName>", methods = ['GET','POST'])
+def feed_bins(paddockName):
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM feed_bins WHERE PaddockName = '{paddockName}'")
+    posts = c.fetchall()
+    return render_template('bins.html', posts=posts, paddockName = paddockName)
+
 
 #Cattle view
 @app.route("/cattle")
@@ -339,6 +349,16 @@ def delete_paddock(paddockName):
     conn.commit()
     return redirect(url_for('paddock'))
 
+#Delete bin
+@app.route("/bin/delete/<paddockName>/<binNumber>", methods=['POST'])
+def delete_bin(paddockName, binNumber):
+    c = conn.cursor()
+    query = f"DELETE FROM feed_bins WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
+    c.execute(query)
+    conn.commit()
+    return redirect(url_for('paddock'))
+
+
 #Delete vehicles 
 @app.route("/vehicles/delete<vehicleID>", methods=['POST'])
 def delete_vehicle(vehicleID): 
@@ -369,7 +389,7 @@ def update_farm(updateName ,updateAddress):
     return render_template("update_farm.html", updateName = updateName , updateAddress = updateAddress, form = form)
     
 #Update paddock
-@app.route("/farm/update/<paddockName>/<size>/<grass>/<farm>",methods = ['GET','POST'])
+@app.route("/paddock/update/<paddockName>/<size>/<grass>/<farm>",methods = ['GET','POST'])
 def update_paddock(paddockName ,size, grass, farm):
     form = PaddockAddFrom()
     if form.validate_on_submit():
@@ -385,6 +405,25 @@ def update_paddock(paddockName ,size, grass, farm):
             flash(f'Paddock {paddockName} updated', 'success')
             return redirect(url_for('paddock'))
     return render_template("update_paddock.html",paddockName = paddockName, size = size, grass = grass, farm = farm , form = form) 
+
+#Update feed bins    
+@app.route("/paddock/<paddockName>/bins/<binNumber>/<lastChecked>/<binContains>/<binLevel>",methods = ['GET','POST'])
+def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
+    form = BinUpdateForm()
+    if form.validate_on_submit():
+            
+            c = conn.cursor()
+            query = f"UPDATE feed_bins\
+                     SET PaddockName = '{form.paddockName.data}', BinNumber = '{form.binNumber.data}'\
+                    , LastChecked = '{form.lastChecked.data}', BinContains = '{form.binContains.data}', BinLevel = '{form.binLevel.data}'\
+                     WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
+            c.execute(query)
+            conn.commit()
+            
+            flash(f'Bin{binNumber} in {paddockName} updated', 'success')
+            return redirect(url_for('paddock'))
+    return render_template("update_bins.html",paddockName = paddockName, binNumber = binNumber, lastChecked = lastChecked, binContains = binContains, binLevel = binLevel ,form = form)
+
 
 #Update cattle
 @app.route("/farm/update/<ID>/<sex>/<breed>/<dob>/<weight>/<paddockName>/<dateMoved>",methods = ['GET','POST'])
@@ -421,6 +460,7 @@ def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID)
             flash(f'Staff member {staffID} updated', 'success')
             return redirect(url_for('staff_home'))
     return render_template("update_staff.html",staffID = staffID, first = first, last = last,  dob = dob, farm = farm, startDate = startDate, number = number, managerID = managerID,  form = form)
+
 
 if __name__ == "__main__":
     app.run(debug = True)
