@@ -82,3 +82,9 @@ body {
     margin-right: 2px;
     margin-left: 2px;
   }
+  .home {
+    color: #8b273b;
+    margin-top : 200px;
+    margin-left : 400px;
+    font-size : 5rem;
+  }

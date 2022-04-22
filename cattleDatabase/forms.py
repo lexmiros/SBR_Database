@@ -1,17 +1,9 @@
 from decimal import ROUND_UP
-from random import choices
-from tokenize import String
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField,PasswordField, SubmitField, BooleanField, DateField, SelectField, DecimalField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
-"""
-Forms for select functionality
-"""
+from wtforms import StringField, IntegerField,SubmitField, DateField, SelectField, DecimalField
+from wtforms.validators import DataRequired, Length, InputRequired 
 
-
-"""
-Forms for insert fucnitonality 
-"""
+#Form to add staff
 class StaffAddFrom(FlaskForm):
     staffID = IntegerField("Staff ID", validators=[DataRequired()])
     firstName = StringField('FirstName : ', validators=[DataRequired(), Length(min = 2, max = 20)])
@@ -24,8 +16,8 @@ class StaffAddFrom(FlaskForm):
     submit = SubmitField("Add Staff")
     submit_update = SubmitField("Update Staff")
 
+#Form to add cattle
 class CattleAddForm(FlaskForm):
-
     sex = SelectField("Sex: ", choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
     breed = SelectField("Breed: ", choices=[('Belmont Red', 'Belmont Red'), ('Angus', 'Angus'), ('Cross', 'Cross')], validators=[DataRequired()])
     dateOfBirth = DateField("Date of birth", validators=[DataRequired()])
@@ -35,6 +27,7 @@ class CattleAddForm(FlaskForm):
     submit = SubmitField("Add Cattle")
     submit_update = SubmitField("Update Cattle")
 
+#Form to update cattle
 class CattleUpdateForm(FlaskForm):
     ID = IntegerField("Cattle ID : ", validators=[DataRequired()])
     sex = SelectField("Sex: ", choices=[('Male', 'Male'), ('Female', 'Female')], validators=[DataRequired()])
@@ -45,12 +38,14 @@ class CattleUpdateForm(FlaskForm):
     dateMoved = DateField("Date moved to paddock", validators=[DataRequired()])
     submit_update = SubmitField("Update Cattle")
 
+#Form to add farm
 class FarmAddForm(FlaskForm):
     name = StringField("Name of the farm: ",validators=[DataRequired(), Length(min = 2, max = 20)] )
     address = StringField("Address : Street # Street name, Suburb, State, Postcode :", validators=[DataRequired()])
     submit = SubmitField("Add Farm")
     submit_update = SubmitField("Update Farm")
 
+#Form at add paddock
 class PaddockAddFrom(FlaskForm):
     paddockName = StringField("Name of the paddock : ", validators=[DataRequired(), Length(min = 2, max = 20)] )
     size =  DecimalField("Paddock size : ", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
@@ -59,6 +54,7 @@ class PaddockAddFrom(FlaskForm):
     submit = SubmitField("Add Paddock")
     submit_update = SubmitField("Update Paddock")
 
+#Form to add bin
 class BinAddForm(FlaskForm):
     binNumber = IntegerField("Bin number", validators=[DataRequired()])
     lastChecked = DateField("Date bin was last checked :", validators=[DataRequired()])
@@ -66,6 +62,7 @@ class BinAddForm(FlaskForm):
     binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[InputRequired()])
     submit = SubmitField("Add Bin")
 
+#Form to update bin
 class BinUpdateForm(FlaskForm):
     paddockName = StringField("Name of the paddock : ", validators=[DataRequired(), Length(min = 2, max = 20)] ) 
     binNumber = IntegerField("Bin number", validators=[DataRequired()])
@@ -74,8 +71,7 @@ class BinUpdateForm(FlaskForm):
     binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[InputRequired()])
     submit = SubmitField("Update Bin")
 
-
-
+#Form at add motorbike
 class MotorbikeAddForm(FlaskForm):
     model = StringField("Vehicle model : ", validators=[DataRequired()])
     brand = StringField("Vehicle brand : ", validators=[DataRequired()])
@@ -84,6 +80,7 @@ class MotorbikeAddForm(FlaskForm):
     engineCC = IntegerField("Motorbike engine CC :", validators=[DataRequired()])
     submit = SubmitField("Add Motorbike")
 
+#Form to update motorbike
 class MotorbikeUpdateForm(FlaskForm):
     vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
@@ -93,6 +90,7 @@ class MotorbikeUpdateForm(FlaskForm):
     engineCC = IntegerField("Motorbike engine CC :", validators=[DataRequired()])
     submit = SubmitField("Update Motorbike")   
 
+#Form to add quadbike
 class QuadbikeAddForm(FlaskForm):
     model = StringField("Vehicle model : ", validators=[DataRequired()])
     brand = StringField("Vehicle brand : ", validators=[DataRequired()])
@@ -101,6 +99,7 @@ class QuadbikeAddForm(FlaskForm):
     rollCage = SelectField("Roll cage attached: ", choices=[('Yes', 'Yes'), ('No', 'No')], validators=[DataRequired()])
     submit = SubmitField("Add Quadbike")
 
+#Form to update quadbike
 class QuadbikeUpdateForm(FlaskForm):
     vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
@@ -110,7 +109,7 @@ class QuadbikeUpdateForm(FlaskForm):
     rollCage = SelectField("Roll cage attached: ", choices=[('Yes', 'Yes'), ('No', 'No')], validators=[DataRequired()])
     submit = SubmitField("Update Quadbike")
 
-
+#Form to add buggy
 class BuggiesAddForm(FlaskForm):
     vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
@@ -120,6 +119,7 @@ class BuggiesAddForm(FlaskForm):
     numberOfSeats = IntegerField("Number of Seats", validators=[DataRequired()])
     submit = SubmitField("Add Buggy")
 
+#Form to update buggy
 class BuggiesUpdateForm(FlaskForm):
     vehicleID = IntegerField("Vehicle ID", validators=[DataRequired()])
     model = StringField("Vehicle model : ", validators=[DataRequired()])
