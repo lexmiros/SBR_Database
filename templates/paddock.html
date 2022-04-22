@@ -25,13 +25,14 @@
             </div>
             <div>
 
+            <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}", method = "POST">
+              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
+            </form>
             <form action="{{ url_for('update_paddock', paddockName = post.PaddockName, size = post.Size, grass = post.GrassCondition, farm = post.FarmName)}}", method = "POST">
               <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
             </form>
           
-            <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}", method = "POST">
-              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
-            </form>
+           
             
           </div>
         </article>

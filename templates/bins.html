@@ -2,11 +2,6 @@
 {% block content %}
 <legend class="border-bottom mb-4"> Feed bins for : {{paddockName}}</legend>
 <div>
-  <p>
-
-  </p>
-</div>
-<div>
 <form action="{{url_for('bin_add', paddockName = paddockName)}}", method = "POST">
   <input class="btn btn-primary " type="submit" value="Add bin to {{paddockName}}">
 </form>
