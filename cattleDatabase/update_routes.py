@@ -43,19 +43,22 @@ def update_paddock(paddockName ,size, grass, farm):
 def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
     form = BinUpdateForm()
     if form.validate_on_submit():
-        try:
-                c = conn.cursor()
-                query = f"UPDATE feed_bins\
+        if form.binLevel.data > 1:
+                flash(f'Bin level cannot exceed 1', 'danger')
+        else:
+                try:
+                        c = conn.cursor()
+                        query = f"UPDATE feed_bins\
                         SET PaddockName = '{form.paddockName.data}', BinNumber = '{form.binNumber.data}'\
                         , LastChecked = '{form.lastChecked.data}', BinContains = '{form.binContains.data}', BinLevel = '{form.binLevel.data}'\
                         WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
-                c.execute(query)
-                conn.commit()
+                        c.execute(query)
+                        conn.commit()
 
-                flash(f'Bin{binNumber} in {paddockName} updated', 'success')
-                return redirect(url_for('paddock'))
-        except pymysql.err.IntegrityError:
-            flash(f'Please ensure the paddock name exists', 'danger')
+                        flash(f'Bin{binNumber} in {paddockName} updated', 'success')
+                        return redirect(url_for('feed_bins', paddockName = paddockName))
+                except pymysql.err.IntegrityError:
+                        flash(f'Please ensure the paddock name exists', 'danger')
 
     return render_template("update_bins.html",paddockName = paddockName, binNumber = binNumber, lastChecked = lastChecked, binContains = binContains, binLevel = binLevel ,form = form)
 

@@ -91,17 +91,20 @@ def staff_add():
 def bin_add(paddockName):   
     form = BinAddForm()
     if form.validate_on_submit():
-        try:
-            c = conn.cursor()
-            query = f"insert into feed_bins(BinNumber, PaddockName, LastChecked, BinContains, BinLevel)\
-            VALUES ('{form.binNumber.data}','{paddockName}','{str(form.lastChecked.data)}','{form.binContains.data}','{str(form.binLevel.data)}')"
-            c.execute(query) 
-            conn.commit() 
-            
-            flash(f'Bin {form.binNumber.data} created for {paddockName}', 'success')
-            return redirect(url_for('paddock'))
-        except pymysql.err.IntegrityError:
-            flash(f'Please ensure the paddock exists', 'danger')    
+        if form.binLevel.data > 1:
+            flash(f'Bin level cannot exceed 1', 'danger')
+        else:
+            try:
+                c = conn.cursor()
+                query = f"insert into feed_bins(BinNumber, PaddockName, LastChecked, BinContains, BinLevel)\
+                VALUES ('{form.binNumber.data}','{paddockName}','{str(form.lastChecked.data)}','{form.binContains.data}','{str(form.binLevel.data)}')"
+                c.execute(query) 
+                conn.commit() 
+                
+                flash(f'Bin {form.binNumber.data} created for {paddockName}', 'success')
+                return redirect(url_for('feed_bins', paddockName = paddockName))
+            except pymysql.err.IntegrityError:
+                flash(f'Please ensure the paddock exists', 'danger')    
         
     return render_template("bin_add.html", form = form, paddockName = paddockName)
 
