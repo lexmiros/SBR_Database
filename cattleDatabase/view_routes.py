@@ -25,6 +25,25 @@ def farm():
 
     return render_template('farm.html', posts=posts, countName = countName)
     
+#staff homepage
+@app.route("/staff_home")
+def staff_home():
+    
+    #Select all staff
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM staff;")
+    posts = c.fetchall()
+
+    #Find total number of staff
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT COUNT(StaffID) FROM staff;")
+    totalCount = c.fetchall()
+    for count in totalCount:
+        staffCount = count["COUNT(StaffID)"]
+    return render_template('staff.html', posts=posts, staffCount = staffCount)
+
 
 #Paddock view
 @app.route("/paddock")
@@ -46,10 +65,10 @@ def paddock():
     #Find average paddock size
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute("SELECT AVG(Size) FROM paddock")
+    c.execute("SELECT ROUND(AVG(Size),2) FROM paddock")
     sizes = c.fetchall()
     for size in sizes:
-        avgSize = size["AVG(Size)"]
+        avgSize = size["ROUND(AVG(Size),2)"]
 
     #Find all paddocks with grass conditon = green
 
@@ -68,8 +87,6 @@ def paddock():
         dry = condition["COUNT(PaddockName)"]
 
     return render_template('paddock.html', posts=posts, countName = countName, avgSize = avgSize, green = green, dry = dry)
-
-
 
 
 #Bin view
@@ -92,10 +109,10 @@ def feed_bins(paddockName):
     #Find average bin level
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute(f"SELECT AVG(BinLevel) FROM feed_bins WHERE PaddockName = '{paddockName}'")
+    c.execute(f"SELECT ROUND(AVG(BinLevel),2) FROM feed_bins WHERE PaddockName = '{paddockName}'")
     totalLevels = c.fetchall()
     for bin in totalLevels:
-        avgLevel = bin["AVG(BinLevel)"]
+        avgLevel = bin["ROUND(AVG(BinLevel),2)"]
 
     #Find count of bins containing wheat
     conn.row_factory = dict_factory
@@ -144,10 +161,10 @@ def cattle():
     #Find the average weight
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute("SELECT AVG(Weight) FROM cattle")
+    c.execute("SELECT ROUND(AVG(Weight),2) FROM cattle")
     totalWeight = c.fetchall()
     for total in totalWeight:
-        avgWeight = total["AVG(Weight)"]
+        avgWeight = total["ROUND(AVG(Weight),2)"]
 
     #Find total males
     conn.row_factory = dict_factory
@@ -189,9 +206,24 @@ def cattle():
     for total in totalCross:
         countCross = total["COUNT(CattleID)"]
 
+    #Find average weight for males
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT ROUND(AVG(Weight),2) FROM cattle WHERE Sex = 'Male';")
+    totalMale = c.fetchall()
+    for total in totalMale:
+        avgMale = total["ROUND(AVG(Weight),2)"]
+    
+    #Find average weight for females
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT ROUND(AVG(Weight),2) FROM cattle WHERE Sex = 'Female';")
+    totalFemale = c.fetchall()
+    for total in totalFemale:
+        avgFemale = total["ROUND(AVG(Weight),2)"]
 
-    return render_template('cattle.html', posts=posts, count = count, avgWeight = avgWeight, countMale = countMale, countFemale = countFemale, countBelmont = countBelmont, countAngus = countAngus, countCross = countCross)
 
+    return render_template('cattle.html', posts=posts, count = count, avgWeight = avgWeight, countMale = countMale, countFemale = countFemale, countBelmont = countBelmont, countAngus = countAngus, countCross = countCross, avgMale = avgMale, avgFemale = avgFemale)
 
 
 #Cattle for specific paddock
@@ -215,10 +247,10 @@ def cattle_paddock(paddockName):
     #Find the average weight
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute(f"SELECT AVG(Weight) FROM cattle WHERE PaddockName = '{paddockName}'")
+    c.execute(f"SELECT ROUND(AVG(Weight),2) FROM cattle WHERE PaddockName = '{paddockName}'")
     totalWeight = c.fetchall()
     for total in totalWeight:
-        avgWeight = total["AVG(Weight)"]
+        avgWeight = total["ROUND(AVG(Weight),2)"]
 
     #Find total males
     conn.row_factory = dict_factory
@@ -259,8 +291,26 @@ def cattle_paddock(paddockName):
     totalCross= c.fetchall()
     for total in totalCross:
         countCross = total["COUNT(CattleID)"]
+    
+    #Find average weight for males
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT ROUND(AVG(Weight),2) FROM cattle WHERE Sex = 'Male' AND PaddockName = '{paddockName}';")
+    totalMale = c.fetchall()
+    for total in totalMale:
+        avgMale = total["ROUND(AVG(Weight),2)"]
+    
+    #Find average weight for females
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT ROUND(AVG(Weight),2) FROM cattle WHERE Sex = 'Female' AND PaddockName = '{paddockName}';")
+    totalFemale = c.fetchall()
+    for total in totalFemale:
+        avgFemale = total["ROUND(AVG(Weight),2)"]
 
-    return render_template('cattle.html', posts=posts, paddockName = paddockName, cattleCount = cattleCount, count = cattleCount, avgWeight = avgWeight, countMale = countMale, countFemale = countFemale, countBelmont = countBelmont, countAngus = countAngus, countCross = countCross)
+
+
+    return render_template('cattle.html', posts=posts, paddockName = paddockName, cattleCount = cattleCount, count = cattleCount, avgWeight = avgWeight, countMale = countMale, countFemale = countFemale, countBelmont = countBelmont, countAngus = countAngus, countCross = countCross, avgMale = avgMale, avgFemale = avgFemale)
 
 #Vehicle pages
 @app.route("/vehicles")
@@ -304,24 +354,7 @@ def vehicles():
 
     return render_template('vehicles.html', posts=posts, countVehicle = countVehicle, countMotorbikes = countMotorbikes, countQuadbikes = countQuadbikes, countBuggies = countBuggies)
 
-#staff homepage
-@app.route("/staff_home")
-def staff_home():
-    
-    #Select all staff
-    conn.row_factory = dict_factory
-    c = conn.cursor()
-    c.execute("SELECT * FROM staff;")
-    posts = c.fetchall()
 
-    #Find total number of staff
-    conn.row_factory = dict_factory
-    c = conn.cursor()
-    c.execute("SELECT COUNT(StaffID) FROM staff;")
-    totalCount = c.fetchall()
-    for count in totalCount:
-        staffCount = count["COUNT(StaffID)"]
-    return render_template('staff.html', posts=posts, staffCount = staffCount)
 
 
 """
@@ -347,10 +380,10 @@ def paddock_farm(farmName):
     #Find average paddock size
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute(f"SELECT AVG(Size) FROM paddock  WHERE FarmName = '{farmName}'")
+    c.execute(f"SELECT ROUND(AVG(Size),2) FROM paddock  WHERE FarmName = '{farmName}'")
     sizes = c.fetchall()
     for size in sizes:
-        avgSize = size["AVG(Size)"]
+        avgSize = size["ROUND(AVG(Size),2)"]
 
     #Find all paddocks with grass conditon = green
 
@@ -407,10 +440,10 @@ def cattle_farm(farmName):
     #Find the average weight
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute(f"SELECT AVG(Weight) FROM cattle WHERE PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' );")
+    c.execute(f"SELECT ROUND(AVG(Weight),2) FROM cattle WHERE PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' );")
     totalWeight = c.fetchall()
     for total in totalWeight:
-        avgWeight = total["AVG(Weight)"]
+        avgWeight = total["ROUND(AVG(Weight),2)"]
 
     #Find total males
     conn.row_factory = dict_factory
@@ -451,8 +484,24 @@ def cattle_farm(farmName):
     totalCross= c.fetchall()
     for total in totalCross:
         countCross = total["COUNT(CattleID)"]
+
+    #Find average weight for males
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT ROUND(AVG(Weight),2) FROM cattle WHERE Sex = 'Male' AND PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' ) ;")
+    totalMale = c.fetchall()
+    for total in totalMale:
+        avgMale = total["ROUND(AVG(Weight),2)"]
     
-    return render_template('cattle.html', posts=posts, farmName = farmName, count = cattleCount, avgWeight = avgWeight, countMale = countMale, countFemale = countFemale, countBelmont = countBelmont, countAngus = countAngus, countCross = countCross )
+    #Find average weight for females
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute(f"SELECT ROUND(AVG(Weight),2) FROM cattle WHERE Sex = 'Female' AND PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' ) ;")
+    totalFemale = c.fetchall()
+    for total in totalFemale:
+        avgFemale = total["ROUND(AVG(Weight),2)"]
+    
+    return render_template('cattle.html', posts=posts, farmName = farmName, count = cattleCount, avgWeight = avgWeight, countMale = countMale, countFemale = countFemale, countBelmont = countBelmont, countAngus = countAngus, countCross = countCross, avgMale = avgMale, avgFemale = avgFemale )
 
 #View vehicles based on farm name
 @app.route("/farm/vehicles/<farmName>", methods = ["POST", "GET"])
