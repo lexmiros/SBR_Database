@@ -23,17 +23,19 @@ def update_farm(updateName ,updateAddress):
 def update_paddock(paddockName ,size, grass, farm):
     form = PaddockAddFrom()
     if form.validate_on_submit():
-            
-            c = conn.cursor()
-            query = f"UPDATE paddock\
-                     SET PaddockName = '{form.paddockName.data}', Size = '{form.size.data}'\
-                    , GrassCondition = '{form.grassCondition.data}', FarmName = '{form.farmName.data}'\
-                     WHERE PaddockName = '{paddockName}'"
-            c.execute(query)
-            conn.commit()
-            
-            flash(f'Paddock {paddockName} updated', 'success')
-            return redirect(url_for('paddock'))
+        try:
+                c = conn.cursor()
+                query = f"UPDATE paddock\
+                        SET PaddockName = '{form.paddockName.data}', Size = '{form.size.data}'\
+                        , GrassCondition = '{form.grassCondition.data}', FarmName = '{form.farmName.data}'\
+                        WHERE PaddockName = '{paddockName}'"
+                c.execute(query)
+                conn.commit()
+                flash(f'Paddock {paddockName} updated', 'success')
+                return redirect(url_for('paddock'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the farm name exists', 'danger')
+
     return render_template("update_paddock.html",paddockName = paddockName, size = size, grass = grass, farm = farm , form = form) 
 
 #Update feed bins    
@@ -41,17 +43,20 @@ def update_paddock(paddockName ,size, grass, farm):
 def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
     form = BinUpdateForm()
     if form.validate_on_submit():
-            
-            c = conn.cursor()
-            query = f"UPDATE feed_bins\
-                     SET PaddockName = '{form.paddockName.data}', BinNumber = '{form.binNumber.data}'\
-                    , LastChecked = '{form.lastChecked.data}', BinContains = '{form.binContains.data}', BinLevel = '{form.binLevel.data}'\
-                     WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
-            c.execute(query)
-            conn.commit()
-            
-            flash(f'Bin{binNumber} in {paddockName} updated', 'success')
-            return redirect(url_for('paddock'))
+        try:
+                c = conn.cursor()
+                query = f"UPDATE feed_bins\
+                        SET PaddockName = '{form.paddockName.data}', BinNumber = '{form.binNumber.data}'\
+                        , LastChecked = '{form.lastChecked.data}', BinContains = '{form.binContains.data}', BinLevel = '{form.binLevel.data}'\
+                        WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
+                c.execute(query)
+                conn.commit()
+
+                flash(f'Bin{binNumber} in {paddockName} updated', 'success')
+                return redirect(url_for('paddock'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the paddock name exists', 'danger')
+
     return render_template("update_bins.html",paddockName = paddockName, binNumber = binNumber, lastChecked = lastChecked, binContains = binContains, binLevel = binLevel ,form = form)
 
 
@@ -60,17 +65,20 @@ def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
 def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
     form = CattleUpdateForm()
     if form.validate_on_submit():
-            
-            c = conn.cursor()
-            query = f"UPDATE cattle\
-                     SET CattleID = '{form.ID.data}', Sex = '{form.sex.data}', Breed = '{form.breed.data}', DateOfBirth = '{form.dateOfBirth.data}',\
-                     Weight = '{form.weight.data}', PaddockName = '{form.paddockName.data}', DateMoved = '{form.dateMoved.data}'\
-                     WHERE cattleID = '{ID}'"
-            c.execute(query)
-            conn.commit()
-            
-            flash(f'Cattle {ID} updated', 'success')
-            return redirect(url_for('cattle'))
+        try:
+                c = conn.cursor()
+                query = f"UPDATE cattle\
+                        SET CattleID = '{form.ID.data}', Sex = '{form.sex.data}', Breed = '{form.breed.data}', DateOfBirth = '{form.dateOfBirth.data}',\
+                        Weight = '{form.weight.data}', PaddockName = '{form.paddockName.data}', DateMoved = '{form.dateMoved.data}'\
+                        WHERE cattleID = '{ID}'"
+                c.execute(query)
+                conn.commit()
+                
+                flash(f'Cattle {ID} updated', 'success')
+                return redirect(url_for('cattle'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the paddock name exists and the new ID is not taken', 'danger')
+             
     return render_template("update_cattle.html",ID = ID, sex = sex, breed = breed, dob = dob, weight = weight, paddockName = paddockName, dateMoved = dateMoved, form = form)      
 
 
@@ -79,16 +87,18 @@ def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
 def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID):
     form = StaffAddFrom()
     if form.validate_on_submit():
-            
-            c = conn.cursor()
-            query = f"UPDATE staff\
-                     SET StaffID = '{form.staffID.data}', FirstName = '{form.firstName.data}', LastName = '{form.lastName.data}', DateOfBirth = '{form.dateOfBirth.data}', FarmName = '{form.farmLoc.data}', StartDate = '{form.startDate.data}', ManagerID = '{form.managerID.data}', PrimaryContactNumber = '{form.contactNumber.data}' \
-                     WHERE StaffID = '{staffID}'"
-            c.execute(query)
-            conn.commit()
-            
-            flash(f'Staff member {staffID} updated', 'success')
-            return redirect(url_for('staff_home'))
+        try:
+                c = conn.cursor()
+                query = f"UPDATE staff\
+                        SET StaffID = '{form.staffID.data}', FirstName = '{form.firstName.data}', LastName = '{form.lastName.data}', DateOfBirth = '{form.dateOfBirth.data}', FarmName = '{form.farmLoc.data}', StartDate = '{form.startDate.data}', ManagerID = '{form.managerID.data}', PrimaryContactNumber = '{form.contactNumber.data}' \
+                        WHERE StaffID = '{staffID}'"
+                c.execute(query)
+                conn.commit()
+                
+                flash(f'Staff member {staffID} updated', 'success')
+                return redirect(url_for('staff_home'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the farm name and manager ID exists and the new staff ID is not taken', 'danger')
     return render_template("update_staff.html",staffID = staffID, first = first, last = last,  dob = dob, farm = farm, startDate = startDate, number = number, managerID = managerID,  form = form)
 
 #Update motorbike
@@ -96,35 +106,39 @@ def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID)
 def update_motorbike(vehicleID, model, farm, date, brand, engine):
     form = MotorbikeUpdateForm()
     if form.validate_on_submit():  
-            #update vehicles table
-            c = conn.cursor()
-            query = f"UPDATE vehicles\
-                     SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
-                     WHERE VehicleID = '{vehicleID}'"
-            c.execute(query)
-            conn.commit()
-            
-            #update brands table
-            #use new vehicle ID as vehicles table set to cascade update
-            c = conn.cursor()
-            query = f"UPDATE vehicle_brands\
-                     SET Brand = '{form.brand.data}'\
-                     WHERE VehicleID = '{form.vehicleID.data}'"
-            c.execute(query)
-            conn.commit()
+        try:
+                #update vehicles table
+                c = conn.cursor()
+                query = f"UPDATE vehicles\
+                        SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
+                        WHERE VehicleID = '{vehicleID}'"
+                c.execute(query)
+                conn.commit()
+                
+                #update brands table
+                #use new vehicle ID as vehicles table set to cascade update
+                c = conn.cursor()
+                query = f"UPDATE vehicle_brands\
+                        SET Brand = '{form.brand.data}'\
+                        WHERE VehicleID = '{form.vehicleID.data}'"
+                c.execute(query)
+                conn.commit()
 
-            #update motorbikes table
-            #use new vehicle ID as vehicles table set to cascade update
-            c = conn.cursor()
-            query = f"UPDATE motorbikes\
-                     SET EngineCC = '{form.engineCC.data}'\
-                     WHERE VehicleID = '{form.vehicleID.data}'"
-            c.execute(query)
-            conn.commit()
-            
-            
-            flash(f'Motorbike {vehicleID} updated', 'success')
-            return redirect(url_for('vehicles'))
+                #update motorbikes table
+                #use new vehicle ID as vehicles table set to cascade update
+                c = conn.cursor()
+                query = f"UPDATE motorbikes\
+                        SET EngineCC = '{form.engineCC.data}'\
+                        WHERE VehicleID = '{form.vehicleID.data}'"
+                c.execute(query)
+                conn.commit()
+                
+                
+                flash(f'Motorbike {vehicleID} updated', 'success')
+                return redirect(url_for('vehicles'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the farm name exists and the new ID is not taken', 'danger')
+
     return render_template("update_motorbike.html",vehicleID = vehicleID, model = model, farm = farm, date = date, brand = brand, engine = engine,  form = form)
 
 #Update quadbike
@@ -132,35 +146,38 @@ def update_motorbike(vehicleID, model, farm, date, brand, engine):
 def update_quadbike(vehicleID, model, farm, date, brand, rollCage):
     form = QuadbikeUpdateForm()
     if form.validate_on_submit():  
-            #update vehicles table
-            c = conn.cursor()
-            query = f"UPDATE vehicles\
-                     SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
-                     WHERE VehicleID = '{vehicleID}'"
-            c.execute(query)
-            conn.commit()
-            
-            #update brands table
-            #use new vehicle ID as vehicles table set to cascade update
-            c = conn.cursor()
-            query = f"UPDATE vehicle_brands\
-                     SET Brand = '{form.brand.data}'\
-                     WHERE VehicleID = '{form.vehicleID.data}'"
-            c.execute(query)
-            conn.commit()
+        try:
+                #update vehicles table
+                c = conn.cursor()
+                query = f"UPDATE vehicles\
+                        SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
+                        WHERE VehicleID = '{vehicleID}'"
+                c.execute(query)
+                conn.commit()
+                
+                #update brands table
+                #use new vehicle ID as vehicles table set to cascade update
+                c = conn.cursor()
+                query = f"UPDATE vehicle_brands\
+                        SET Brand = '{form.brand.data}'\
+                        WHERE VehicleID = '{form.vehicleID.data}'"
+                c.execute(query)
+                conn.commit()
 
-            #update motorbikes table
-            #use new vehicle ID as vehicles table set to cascade update
-            c = conn.cursor()
-            query = f"UPDATE quadbikes\
-                     SET RollCage = '{form.rollCage.data}'\
-                     WHERE VehicleID = '{form.vehicleID.data}'"
-            c.execute(query)
-            conn.commit()
-            
-            
-            flash(f'Quadbike {vehicleID} updated', 'success')
-            return redirect(url_for('vehicles'))
+                #update motorbikes table
+                #use new vehicle ID as vehicles table set to cascade update
+                c = conn.cursor()
+                query = f"UPDATE quadbikes\
+                        SET RollCage = '{form.rollCage.data}'\
+                        WHERE VehicleID = '{form.vehicleID.data}'"
+                c.execute(query)
+                conn.commit()
+                
+                
+                flash(f'Quadbike {vehicleID} updated', 'success')
+                return redirect(url_for('vehicles'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the farm name exists and the new ID is not taken', 'danger')
     return render_template("update_quadbike.html",vehicleID = vehicleID, model = model, farm = farm, date = date, brand = brand, rollCage = rollCage,  form = form)
 
 
@@ -169,33 +186,36 @@ def update_quadbike(vehicleID, model, farm, date, brand, rollCage):
 def update_buggy(vehicleID, model, farm, date, brand, numberOfSeats):
     form = BuggiesUpdateForm()
     if form.validate_on_submit():  
-            #update vehicles table
-            c = conn.cursor()
-            query = f"UPDATE vehicles\
-                     SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
-                     WHERE VehicleID = '{vehicleID}'"
-            c.execute(query)
-            conn.commit()
-            
-            #update brands table
-            #use new vehicle ID as vehicles table set to cascade update
-            c = conn.cursor()
-            query = f"UPDATE vehicle_brands\
-                     SET Brand = '{form.brand.data}'\
-                     WHERE VehicleID = '{form.vehicleID.data}'"
-            c.execute(query)
-            conn.commit()
+        try:
+                #update vehicles table
+                c = conn.cursor()
+                query = f"UPDATE vehicles\
+                        SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
+                        WHERE VehicleID = '{vehicleID}'"
+                c.execute(query)
+                conn.commit()
+                
+                #update brands table
+                #use new vehicle ID as vehicles table set to cascade update
+                c = conn.cursor()
+                query = f"UPDATE vehicle_brands\
+                        SET Brand = '{form.brand.data}'\
+                        WHERE VehicleID = '{form.vehicleID.data}'"
+                c.execute(query)
+                conn.commit()
 
-            #update motorbikes table
-            #use new vehicle ID as vehicles table set to cascade update
-            c = conn.cursor()
-            query = f"UPDATE buggies\
-                     SET NumberOfSeats = '{form.numberOfSeats.data}'\
-                     WHERE VehicleID = '{form.vehicleID.data}'"
-            c.execute(query)
-            conn.commit()
-            
-            
-            flash(f'Buggy {vehicleID} updated', 'success')
-            return redirect(url_for('vehicles'))
+                #update motorbikes table
+                #use new vehicle ID as vehicles table set to cascade update
+                c = conn.cursor()
+                query = f"UPDATE buggies\
+                        SET NumberOfSeats = '{form.numberOfSeats.data}'\
+                        WHERE VehicleID = '{form.vehicleID.data}'"
+                c.execute(query)
+                conn.commit()
+                
+                
+                flash(f'Buggy {vehicleID} updated', 'success')
+                return redirect(url_for('vehicles'))
+        except pymysql.err.IntegrityError:
+            flash(f'Please ensure the farm name exists and the new ID is not taken', 'danger')
     return render_template("update_buggy.html",vehicleID = vehicleID, model = model, farm = farm, date = date, brand = brand, numberOfSeats = numberOfSeats,  form = form)    

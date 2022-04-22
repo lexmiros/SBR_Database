@@ -49,7 +49,7 @@ def paddock():
     c.execute("SELECT AVG(Size) FROM paddock")
     sizes = c.fetchall()
     for size in sizes:
-        avgSize = round(size["AVG(Size)"],2)
+        avgSize = size["AVG(Size)"]
 
     #Find all paddocks with grass conditon = green
 
@@ -147,7 +147,7 @@ def cattle():
     c.execute("SELECT AVG(Weight) FROM cattle")
     totalWeight = c.fetchall()
     for total in totalWeight:
-        avgWeight = round(total["AVG(Weight)"],2)
+        avgWeight = total["AVG(Weight)"]
 
     #Find total males
     conn.row_factory = dict_factory
@@ -218,7 +218,7 @@ def cattle_paddock(paddockName):
     c.execute(f"SELECT AVG(Weight) FROM cattle WHERE PaddockName = '{paddockName}'")
     totalWeight = c.fetchall()
     for total in totalWeight:
-        avgWeight = round(total["AVG(Weight)"],2)
+        avgWeight = total["AVG(Weight)"]
 
     #Find total males
     conn.row_factory = dict_factory
@@ -350,7 +350,7 @@ def paddock_farm(farmName):
     c.execute(f"SELECT AVG(Size) FROM paddock  WHERE FarmName = '{farmName}'")
     sizes = c.fetchall()
     for size in sizes:
-        avgSize = round(size["AVG(Size)"],2)
+        avgSize = size["AVG(Size)"]
 
     #Find all paddocks with grass conditon = green
 
@@ -410,7 +410,7 @@ def cattle_farm(farmName):
     c.execute(f"SELECT AVG(Weight) FROM cattle WHERE PaddockName IN ( SELECT PaddockName FROM paddock WHERE FarmName = '{farmName}' );")
     totalWeight = c.fetchall()
     for total in totalWeight:
-        avgWeight = round(total["AVG(Weight)"],2)
+        avgWeight = total["AVG(Weight)"]
 
     #Find total males
     conn.row_factory = dict_factory
