@@ -3,7 +3,7 @@ from random import choices
 from tokenize import String
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField,PasswordField, SubmitField, BooleanField, DateField, SelectField, DecimalField
-from wtforms.validators import DataRequired, Length, Email, EqualTo 
+from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired 
 """
 Forms for select functionality
 """
@@ -63,7 +63,7 @@ class BinAddForm(FlaskForm):
     binNumber = IntegerField("Bin number", validators=[DataRequired()])
     lastChecked = DateField("Date bin was last checked :", validators=[DataRequired()])
     binContains = SelectField("Bin contains ", choices=[('Wheat', 'Wheat'), ('Salt Lick', 'Salt Lick'), ('Sorghum','Sorghum')], validators=[DataRequired()])
-    binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
+    binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[InputRequired()])
     submit = SubmitField("Add Bin")
 
 class BinUpdateForm(FlaskForm):
@@ -71,7 +71,7 @@ class BinUpdateForm(FlaskForm):
     binNumber = IntegerField("Bin number", validators=[DataRequired()])
     lastChecked = DateField("Date bin was last checked :", validators=[DataRequired()])
     binContains = SelectField("Bin contains ", choices=[('Wheat', 'Wheat'), ('Salt Lick', 'Salt Lick'), ('Sorghum','Sorghum')], validators=[DataRequired()])
-    binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[DataRequired()])
+    binLevel = DecimalField("Bin level between 0 (empty) to 1 (full))", places = 2, rounding = ROUND_UP,validators=[InputRequired()])
     submit = SubmitField("Update Bin")
 
 
