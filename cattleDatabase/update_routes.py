@@ -1,4 +1,4 @@
-from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffAddFrom, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm
+from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffUpdateFrom, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm
 from cattleDatabase import *
 
 #Update farm
@@ -88,7 +88,7 @@ def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
 #Update staff
 @app.route("/staff/update/<staffID>/<first>/<last>/<dob>/<farm>/<startDate>/<number>/<managerID>",methods = ['GET','POST'])
 def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID):
-    form = StaffAddFrom()
+    form = StaffUpdateFrom()
     if form.validate_on_submit():
         try:
                 c = conn.cursor()

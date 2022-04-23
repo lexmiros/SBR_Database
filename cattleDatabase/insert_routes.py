@@ -70,20 +70,33 @@ def cattle_add():
 def staff_add():   
     form = StaffAddFrom()
     if form.validate_on_submit():
-        
-        try:
-            c = conn.cursor()
-            query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, ManagerID, PrimaryContactNumber)\
-            VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}','{str(form.managerID.data)}' ,'{str(form.contactNumber.data)}')"
-            c.execute(query) #Execute the query
-            conn.commit() #Commit the changes
-        
-            flash(f'Staff member created for {form.firstName.data}', 'success')
-            return redirect(url_for('staff_home'))
+        if form.managerID.data:
+            try:
+                c = conn.cursor()
+                query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, ManagerID, PrimaryContactNumber)\
+                VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}','{str(form.managerID.data)}' ,'{str(form.contactNumber.data)}')"
+                c.execute(query) #Execute the query
+                conn.commit() #Commit the changes
+            
+                flash(f'Staff member created for {form.firstName.data}', 'success')
+                return redirect(url_for('staff_home'))
 
-        except pymysql.err.IntegrityError:
-            flash(f'Please ensure the farm name exists', 'danger')
-    
+            except pymysql.err.IntegrityError:
+                flash(f'Please ensure the farm name exists', 'danger')
+        else:
+            try:
+                c = conn.cursor()
+                query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, PrimaryContactNumber)\
+                VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}' ,'{str(form.contactNumber.data)}')"
+                c.execute(query) #Execute the query
+                conn.commit() #Commit the changes
+            
+                flash(f'Staff member created for {form.firstName.data}', 'success')
+                return redirect(url_for('staff_home'))
+
+            except pymysql.err.IntegrityError:
+                flash(f'Please ensure the farm name exists', 'danger')
+
     return render_template("staff_add.html", form = form, title = "Add staff")
 
 #Add feed bin

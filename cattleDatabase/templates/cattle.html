@@ -13,7 +13,7 @@
               <a class="mr-2"><b>Cattle ID : </b>{{ post.CattleID }}</a>
             </div>
            
-            
+            <div>
             <p class="article-content"><b> Sex : </b>{{ post.Sex }} </p>
             <p class="article-content"><b> Breed : </b>{{ post.Breed }} </p>
             <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
@@ -21,14 +21,44 @@
             <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
             <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
            
-            <p></p>
-            <form action="{{ url_for('delete_cattle', cattleID = post.CattleID)}}", method = "POST">
-              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
-            </form>
+      
+            <!-- Button trigger modal -->
+            <button type="button" class="btn-grp btn-danger btn-sm" data-toggle="modal" data-target="#deleteModalCenter{{post.CattleID}}", style ="float: right;">
+              Delete
+            </button>
             <form action="{{ url_for('update_cattle', ID = post.CattleID, sex = post.Sex, breed = post.Breed, dob = post.DateOfBirth, weight = post.Weight, paddockName = post.PaddockName, dateMoved = post.DateMoved)}}", method = "POST">
               <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
             </form>
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModalCenter{{post.CattleID}}">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLongTitle">Deleting cow</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h3>Are you sure?</h3>
+                    <p></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                    <form action="{{ url_for('delete_cattle', cattleID = post.CattleID)}}" method="post">
+                      <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            </div>
           </div>
+          
         </article>
      
     {% endfor %}

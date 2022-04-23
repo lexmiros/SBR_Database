@@ -10,32 +10,58 @@
             <div class="article-metadata">
               <a class="mr-2"><b>{{ post.PaddockName }}</b></a>
             </div>
+            <div>
             <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
             <p class="article-content"><b>Containing farm :</b>{{ post.FarmName}}</p>
             <p class="article-content"><b>Size :           </b>{{ post.Size }} acres </p>
             <p class="article-content"><b>Grass condition :</b>{{ post.GrassCondition }}</p>
+           
             
-            <div>
             <form action="{{url_for('feed_bins', paddockName = post.PaddockName)}}", method = "POST">
               <input class="btn-grp btn-info btn-sm" type="submit" value="View feed bins" style ="float: left;">
             </form>
             <form action="{{url_for('cattle_paddock', paddockName = post.PaddockName)}}", method = "POST">
               <input class="btn-grp btn-info btn-sm" type="submit" value="View cattle" style ="float: left;">
             </form>
-            </div>
-            <div>
-
-            <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}", method = "POST">
-              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
-            </form>
+            
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn-grp btn-danger btn-sm" data-toggle="modal" data-target="#deleteModalCenter{{post.PaddockName}}", style ="float: right;">
+              Delete
+            </button>
+          
             <form action="{{ url_for('update_paddock', paddockName = post.PaddockName, size = post.Size, grass = post.GrassCondition, farm = post.FarmName)}}", method = "POST">
               <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
-            </form>
-          
-           
+            </form> 
+            </div>
             
-          </div>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModalCenter{{post.PaddockName}}">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLongTitle">Deleting paddock</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h3>Are you sure?</h3>
+                    <p>Deleting a paddock will delete all associated cattle and feed bins</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                    <form action="{{ url_for('delete_paddock', paddockName = post.PaddockName)}}" method="post">
+                      <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+              
         </article>
+        
     {% endfor %}
 {% endblock content %}
 
