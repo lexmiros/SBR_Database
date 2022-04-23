@@ -1,4 +1,4 @@
-from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffUpdateFrom, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm
+from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffUpdateForm, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm, StaffUpdateManagerForm
 from cattleDatabase import *
 
 #Update farm
@@ -86,23 +86,44 @@ def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
 
 
 #Update staff
-@app.route("/staff/update/<staffID>/<first>/<last>/<dob>/<farm>/<startDate>/<number>/<managerID>",methods = ['GET','POST'])
-def update_staff(staffID, first, last,  dob, farm, startDate, number, managerID):
-    form = StaffUpdateFrom()
+@app.route("/staff/update/<staffID>/<first>/<last>/<dob>/<farm>/<startDate>/<number>",methods = ['GET','POST'])
+def update_staff(staffID, first, last,  dob, farm, startDate, number):
+    form = StaffUpdateForm()
     if form.validate_on_submit():
-        try:
-                c = conn.cursor()
-                query = f"UPDATE staff\
-                        SET StaffID = '{form.staffID.data}', FirstName = '{form.firstName.data}', LastName = '{form.lastName.data}', DateOfBirth = '{form.dateOfBirth.data}', FarmName = '{form.farmLoc.data}', StartDate = '{form.startDate.data}', ManagerID = '{form.managerID.data}', PrimaryContactNumber = '{form.contactNumber.data}' \
-                        WHERE StaffID = '{staffID}'"
-                c.execute(query)
-                conn.commit()
-                
-                flash(f'Staff member {staffID} updated', 'success')
-                return redirect(url_for('staff_home'))
-        except pymysql.err.IntegrityError:
-            flash(f'Please ensure the farm name and manager ID exists and the new staff ID is not taken', 'danger')
-    return render_template("update_staff.html",staffID = staffID, first = first, last = last,  dob = dob, farm = farm, startDate = startDate, number = number, managerID = managerID,  form = form)
+        
+                try:
+                        c = conn.cursor()
+                        query = f"UPDATE staff\
+                                SET StaffID = '{form.staffID.data}', FirstName = '{form.firstName.data}', LastName = '{form.lastName.data}', DateOfBirth = '{form.dateOfBirth.data}', FarmName = '{form.farmLoc.data}', StartDate = '{form.startDate.data}', PrimaryContactNumber = '{form.contactNumber.data}' \
+                                WHERE StaffID = '{staffID}'"
+                        c.execute(query)
+                        conn.commit()
+                        
+                        flash(f'Staff member {staffID} updated', 'success')
+                        return redirect(url_for('staff_home'))
+                except pymysql.err.IntegrityError:
+                        flash(f'Please ensure the new staff IDs are not in use, and if this staff member is a manager, other staff are assigned new managers before updating the staff ID', 'danger')
+          
+
+    return render_template("update_staff.html",staffID = staffID, first = first, last = last,  dob = dob, farm = farm, startDate = startDate, number = number,  form = form)
+
+#Update staff manager
+@app.route("/staff/update/<staffID>/<managerID>",methods = ['GET','POST'])
+def update_staff_manager(staffID, managerID):
+        form = StaffUpdateManagerForm()
+        if form.validate_on_submit():
+
+                try:
+                        c = conn.cursor()
+                        query = f"UPDATE staff SET ManagerID = '{form.managerID.data}' WHERE StaffID = '{staffID}'"
+                        c.execute(query)
+                        conn.commit()
+
+                        flash(f'Staff member {staffID} updated', 'success')
+                        return redirect(url_for('staff_home'))
+                except pymysql.err.IntegrityError:
+                        flash(f'Please ensure the farm name and manager ID exists and the new staff ID is not taken', 'danger')
+        return render_template("update_staff_manager.html",staffID = staffID, managerID = managerID,  form = form)
 
 #Update motorbike
 @app.route("/vehicles/motorbikes/<vehicleID>/<model>/<farm>/<date>/<brand>/<engine>",methods = ['GET','POST'])

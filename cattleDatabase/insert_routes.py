@@ -1,4 +1,4 @@
-from cattleDatabase.forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddFrom
+from cattleDatabase.forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddForm
 from cattleDatabase import *
 
 
@@ -68,8 +68,9 @@ def cattle_add():
 #Add staff
 @app.route("/staff_add", methods = ['GET','POST'])
 def staff_add():   
-    form = StaffAddFrom()
+    form = StaffAddForm()
     if form.validate_on_submit():
+        #Create new staf member if a manager ID has been given from the GUi
         if form.managerID.data:
             try:
                 c = conn.cursor()
@@ -83,6 +84,7 @@ def staff_add():
 
             except pymysql.err.IntegrityError:
                 flash(f'Please ensure the farm name exists', 'danger')
+        #Create staff member if no manager ID has been given. 
         else:
             try:
                 c = conn.cursor()

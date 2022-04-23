@@ -28,15 +28,44 @@
             {% endif %}
             
             <div class = "btn-grp">
-            <form action="{{ url_for('delete_staff', staffID = post.StaffID)}}", method = "POST">
-              <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete" style ="float: right;">
-            </form>
-
-            <form action="{{ url_for('update_staff', staffID = post.StaffID, first = post.FirstName, last = post.LastName, dob = post.DateOfBirth, farm = post.FarmName, startDate = post.StartDate, number = post.PrimaryContactNumber, managerID = manager)}}", method = "POST">
+            
+            <!-- Button trigger modal -->
+            <button type="button" class="btn-grp btn-danger btn-sm" data-toggle="modal" data-target="#deleteModalCenter{{post.StaffID}}", style ="float: right;">
+              Delete
+            </button>
+            <form action="{{ url_for('update_staff', staffID = post.StaffID, first = post.FirstName, last = post.LastName, dob = post.DateOfBirth, farm = post.FarmName, startDate = post.StartDate, number = post.PrimaryContactNumber)}}", method = "POST">
               <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update" style ="float: right;">
+            </form>
+            <form action="{{ url_for('update_staff_manager', staffID = post.StaffID, managerID = manager)}}", method = "POST">
+              <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update Manager" style ="float: right;">
             </form>
             </div>
             
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModalCenter{{post.StaffID}}">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLongTitle">Deleting staff member</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h3>Are you sure?</h3>
+                    <p></p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                    <form action="{{ url_for('delete_staff', staffID = post.StaffID)}}" method="post">
+                      <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </article>    
       
     {% endfor %}

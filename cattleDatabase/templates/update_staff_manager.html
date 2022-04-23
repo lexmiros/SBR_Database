@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{form.hidden_tag()}}
+        <fieldset class = "form-group">
+            <legend class="border-bottom mb-4"> Update Staff : {{first}}  {{last}} ID : {{staffID}}</legend>
+            
+
+            <div class="form-group">
+                <b>{{form.managerID.label(class="form-control-label")}} </b>{{managerID}}
+
+                {% if form.managerID.errors %}
+                    {{form.managerID(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.managerID.errors %}
+                                <span> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.managerID(class="form-control form-control-lg") }}
+                {%endif%}
+                
+            </div>
+
+                
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            {{form.submit_update(class="btn btn-outline-info")}}
+        </div>
+    </form>
+    
+</div>
+{% endblock content %}
+{% block overview%}
+
+{% endblock overview%}
+
+
+
