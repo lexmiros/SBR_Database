@@ -10,18 +10,23 @@ def delete_farm(farmName):
     query = f"DELETE FROM farm WHERE FarmName = '{current_farm}'"
     c.execute(query)
     conn.commit()
+    flash(f'Farm {farmName} and all associated entites deleted', 'success')
     return redirect(url_for('farm'))
 
 #Delete staff
 @app.route("/staff/delete/<int:staffID>", methods=['POST'])
 def delete_staff(staffID):
-    c = conn.cursor()
-    current_id = staffID
-    query = f"DELETE FROM staff WHERE StaffID = {current_id}"
-    c.execute(query)
-    conn.commit()
-    return redirect(url_for('staff_home'))
-
+    try:
+        c = conn.cursor()
+        current_id = staffID
+        query = f"DELETE FROM staff WHERE StaffID = {current_id}"
+        c.execute(query)
+        conn.commit()
+        flash(f'Staff {staffID}  deleted', 'success')
+        return redirect(url_for('staff_home'))
+    except:
+        flash(f'Deletion FAILED : Please ensure all staff ID : {current_id } manages change their manager ID before deleting', 'danger')
+        return redirect(url_for('staff_home'))
 #Delete cattle
 @app.route("/cattle/delete/<int:cattleID>", methods=['POST'])
 def delete_cattle(cattleID):
@@ -30,6 +35,7 @@ def delete_cattle(cattleID):
     query = f"DELETE FROM cattle WHERE CattleID = '{current_id}'"
     c.execute(query)
     conn.commit()
+    flash(f'Cow {cattleID}  deleted', 'success')
     return redirect(url_for('cattle'))
 
 
@@ -41,6 +47,7 @@ def delete_paddock(paddockName):
     query = f"DELETE FROM paddock WHERE PaddockName = '{current_paddock}'"
     c.execute(query)
     conn.commit()
+    flash(f'Paddock {paddockName}  deleted', 'success')
     return redirect(url_for('paddock'))
 
 #Delete bin
@@ -50,6 +57,7 @@ def delete_bin(paddockName, binNumber):
     query = f"DELETE FROM feed_bins WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
     c.execute(query)
     conn.commit()
+    flash(f'Bin {binNumber} at paddock {paddockName}  deleted', 'success')
     return redirect(url_for('feed_bins', paddockName = paddockName))
 
 
@@ -63,4 +71,5 @@ def delete_vehicle(vehicleID):
     query = f"DELETE FROM vehicles WHERE VehicleID = '{vehicleID}'"
     c.execute(query)
     conn.commit()
+    flash(f'Vehicle {vehicleID}  deleted', 'success')
     return redirect(url_for('vehicles'))
