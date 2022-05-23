@@ -1,0 +1,47 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+    
+<h1 class="about"> About  </h1>
+<div class="text_header">
+    <h2>Project </h2>
+    <p>This project is an extension of a prescribed university assignment. The scope of the assignment was to create a database design from scartch, chosing any universe of discourse. 
+        The universe chosen for the project was based on a real cattle company, Seifert Belmont Reds, at a reduced scale for feasbility. Further discussion on the project can be found in
+        the report. 
+        For the database design, the project required:
+        <ul class="text_header">
+            <li>At least 5 entities</li>
+            <li>At least 5 relationships</li>
+        </ul>
+    </p>
+    <h2>Specifications </h2>
+    <p>
+        The project criteria required MySQL to be used as the DBMS, and that the created database structure be normalised to BCNF or 3NF.
+        The ER diagram, Schema, and BCNF normalisation used for this project can be found in the report. For implementation, the project required:
+        <ul>
+            <li>A join query</li>
+            <li>Aggregation query</li>
+            <li>Aggregation query with group-by</li>
+            <li>Delete with cascade</li>
+            <li>Update</li>
+          </ul>
+    </p>
+    <p>
+        The above requirements had to be implemeneted using basic SQL.
+    </p>
+
+    <h2> Extension </h2>
+    <p>
+    Two main extensions were added to the project for personal learnings. The project was implemented with a complete GUI using Flask, HTML and CSS, and a linear regression model to predict cattle prices was added.      
+    </p>
+    <p>
+    The linear regression model was built from real cattle sales data from Seifert Belmont Reds. The data used to build the model has not been included at the request of the owners, but an analysis of the models performance can be found in the reports tab.
+    </p>
+        
+    
+</div>
+{% endblock content %}
+{% block overview%}
+
+{% endblock overview%}

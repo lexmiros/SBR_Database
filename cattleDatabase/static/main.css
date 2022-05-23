@@ -25,10 +25,12 @@ body {
   
   .content-section {
     background: #ffffff;
+    width: 100%;
     padding: 10px 20px;
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
+    margin: auto;
   }
   
   .database-title {
@@ -69,4 +71,41 @@ body {
     font-size : 5rem;
   }
 
- 
+  .about{
+    color: #8b273b;
+    margin-left : 50%;
+    font-size : 5rem;
+    text-align: center;
+    margin-bottom: 10%;
+  }
+
+  .text_header h2{
+    color: #8b273b;
+    margin-left: 50%;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  .text_header p{
+    color: #000000;
+    margin-left: 25%;
+    text-align: left;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .text_header ul{
+    color: #000000;
+    margin-left: 35%;
+    text-align: left;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .pdf {
+    color: #000000;
+    margin-left: 25%;
+    text-align: left;
+    width: 100%;
+    font-size: 18px;
+  }

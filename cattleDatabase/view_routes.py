@@ -4,7 +4,13 @@ from cattleDatabase import app, conn, dict_factory, render_template, dict_factor
 def home():
     return render_template("home.html", title = "Home Page")
 
+@app.route("/about")
+def about():
+    return render_template("about.html", title = "About")
 
+@app.route("/report")
+def report():
+    return render_template("report.html", title = "Report")
 #Farm view
 @app.route("/farm")
 def farm():
