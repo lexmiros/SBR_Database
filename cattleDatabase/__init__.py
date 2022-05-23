@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk'
 host_db='localhost' 
 user_db='adminflask'
 password_db='adminflask'
-database_db='project_db_3'
+database_db='project_db_4'
 charset_db='utf8mb4'
 cursorclass_db =pymysql.cursors.DictCursor
 
