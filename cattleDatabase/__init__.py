@@ -6,13 +6,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk' 
 
 #Database conncetion information
-conn = pymysql.connect(host='localhost',
-                             user='adminflask',
-                             password='adminflask',
-                             database='project_db_3',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor
-                             )
+host_db='localhost' 
+user_db='adminflask'
+password_db='adminflask'
+database_db='project_db_3'
+charset_db='utf8mb4'
+cursorclass_db =pymysql.cursors.DictCursor
+
+conn = pymysql.connect(host='localhost', user='adminflask', password='adminflask', database='project_db_3', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 
 
 #Turn the results from the database into a dictionary

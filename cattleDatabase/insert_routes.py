@@ -1,6 +1,12 @@
 from cattleDatabase.forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddForm
 from cattleDatabase import pymysql, app, conn, dict_factory, render_template, url_for, redirect, flash
 
+host_db='localhost'
+user_db='adminflask'
+password_db ='adminflask'
+database_db= 'project_db_3'
+charset_db= 'utf8mb4'
+cursorclass_db = pymysql.cursors.DictCursor
 
 
 #Add farm
@@ -9,11 +15,14 @@ def farm_add():
         form = FarmAddForm()
         if form.validate_on_submit():
             try:
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"INSERT INTO FARM(FarmName, Address)\
                         VALUES('{form.name.data}','{form.address.data}')"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 flash(f'Farm {form.name.data} created', 'success')
                 return redirect(url_for('farm'))
@@ -29,11 +38,14 @@ def paddock_add():
     form = PaddockAddFrom()
     if form.validate_on_submit():
         try:
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor()
             query = f"INSERT INTO PADDOCK(PaddockName, Size, GrassCondition, FarmName)\
                     VALUES('{form.paddockName.data}','{str(form.size.data)}','{form.grassCondition.data}','{form.farmName.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
             flash(f'Paddock {form.paddockName.data} created', 'success')
             return redirect(url_for('paddock'))
         
@@ -50,11 +62,14 @@ def cattle_add():
     form = CattleAddForm()
     if form.validate_on_submit():
         try:
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor()
             query = f"INSERT INTO CATTLE (Sex, Breed, DateOfBirth, Weight, PaddockName, DateMoved)\
                     VALUES('{form.sex.data}','{form.breed.data}','{form.dateOfBirth.data}','{str(form.weight.data)}','{str(form.paddockName.data)}','{form.dateMoved.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
             
             flash(f'Cattle added to {form.paddockName.data}', 'success')
             return redirect(url_for('cattle'))
@@ -73,11 +88,14 @@ def staff_add():
         #Create new staf member if a manager ID has been given from the GUi
         if form.managerID.data:
             try:
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, ManagerID, PrimaryContactNumber)\
                 VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}','{str(form.managerID.data)}' ,'{str(form.contactNumber.data)}')"
                 c.execute(query) #Execute the query
                 conn.commit() #Commit the changes
+                c.close()
+                conn.close()
             
                 flash(f'Staff member created for {form.firstName.data}', 'success')
                 return redirect(url_for('staff_home'))
@@ -87,11 +105,14 @@ def staff_add():
         #Create staff member if no manager ID has been given. 
         else:
             try:
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"insert into STAFF(FirstName, LastName, DateOfBirth, FarmName, StartDate, PrimaryContactNumber)\
                 VALUES ('{form.firstName.data}','{form.lastName.data}','{str(form.dateOfBirth.data)}','{form.farmLoc.data}','{str(form.startDate.data)}' ,'{str(form.contactNumber.data)}')"
                 c.execute(query) #Execute the query
                 conn.commit() #Commit the changes
+                c.close()
+                conn.close()
             
                 flash(f'Staff member created for {form.firstName.data}', 'success')
                 return redirect(url_for('staff_home'))
@@ -110,11 +131,14 @@ def bin_add(paddockName):
             flash(f'Bin level cannot exceed 1', 'danger')
         else:
             try:
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"insert into feed_bins(BinNumber, PaddockName, LastChecked, BinContains, BinLevel)\
                 VALUES ('{form.binNumber.data}','{paddockName}','{str(form.lastChecked.data)}','{form.binContains.data}','{str(form.binLevel.data)}')"
                 c.execute(query) 
                 conn.commit() 
+                c.close()
+                conn.close()
                 
                 flash(f'Bin {form.binNumber.data} created for {paddockName}', 'success')
                 return redirect(url_for('feed_bins', paddockName = paddockName))
@@ -130,13 +154,17 @@ def motorbike_add():
     if form.validate_on_submit():
         try:
             #Add vehicle to vehicles table
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor()
             query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
             VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
             
             #Get the auto-incremented vehicle ID from vehicles table
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             conn.row_factory = dict_factory
             c = conn.cursor()
             c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
@@ -149,14 +177,19 @@ def motorbike_add():
             VALUES('{max_ID}','{form.engineCC.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
 
 
             #Add vehicle to vehicle_brands table 
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor() 
             query = f"INSERT INTO vehicle_brands(VehicleID, Brand) \
             VALUES('{max_ID}','{form.brand.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
 
             flash(f"Motorbike added to {form.farmName.data}",  'success')
 
@@ -173,13 +206,17 @@ def buggies_add():
     if form.validate_on_submit():
         try:
             #Add vehicle to vehicles table
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor()
             query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
             VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
             
             #Get the auto-incremented vehicle ID from vehicles table
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             conn.row_factory = dict_factory
             c = conn.cursor()
             c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
@@ -192,14 +229,19 @@ def buggies_add():
             VALUES('{max_ID}','{form.numberOfSeats.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
 
 
             #Add vehicle to vehicle_brands table 
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor() 
             query = f"INSERT INTO vehicle_brands(VehicleID, Brand) \
             VALUES('{max_ID}','{form.brand.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
 
             flash(f"Buggy added to {form.farmName.data}",  'success')
 
@@ -216,13 +258,17 @@ def quadbike_add():
     if form.validate_on_submit():
         try:
             #Add vehicle to vehicles table
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor()
             query = f"INSERT INTO vehicles(Model, FarmName, PurchaseDate) \
             VALUES('{form.model.data}','{form.farmName.data}','{form.purchaseDate.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
             
             #Get the auto-incremented vehicle ID from vehicles table
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             conn.row_factory = dict_factory
             c = conn.cursor()
             c.execute("SELECT MAX(VehicleID), Model FROM vehicles;")
@@ -235,14 +281,19 @@ def quadbike_add():
             VALUES('{max_ID}','{form.rollCage.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
 
 
             #Add vehicle to vehicle_brands table 
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor() 
             query = f"INSERT INTO vehicle_brands(VehicleID, Brand) \
             VALUES('{max_ID}','{form.brand.data}')"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
 
             flash(f"Quadbike added to {form.farmName.data}",  'success')
 

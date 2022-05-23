@@ -1,18 +1,27 @@
 from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffUpdateForm, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm, StaffUpdateManagerForm
 from cattleDatabase import pymysql, app, conn, render_template, url_for, redirect, flash
 
+host_db='localhost'
+user_db='adminflask'
+password_db ='adminflask'
+database_db= 'project_db_3'
+charset_db= 'utf8mb4'
+cursorclass_db = pymysql.cursors.DictCursor
+
 #Update farm
 @app.route("/farm/update/<updateName>/<updateAddress>",methods = ['GET','POST'])
 def update_farm(updateName ,updateAddress):
     form = FarmAddForm()
     if form.validate_on_submit():
-            
+            conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
             c = conn.cursor()
             query = f"UPDATE farm\
                      SET FarmName = '{form.name.data}', Address = '{form.address.data}'\
                      WHERE FarmName = '{updateName}'"
             c.execute(query)
             conn.commit()
+            c.close()
+            conn.close()
             
             flash(f'Farm {updateName} updated', 'success')
             return redirect(url_for('farm'))
@@ -24,6 +33,7 @@ def update_paddock(paddockName ,size, grass, farm):
     form = PaddockAddFrom()
     if form.validate_on_submit():
         try:
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE paddock\
                         SET PaddockName = '{form.paddockName.data}', Size = '{form.size.data}'\
@@ -31,6 +41,8 @@ def update_paddock(paddockName ,size, grass, farm):
                         WHERE PaddockName = '{paddockName}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 flash(f'Paddock {paddockName} updated', 'success')
                 return redirect(url_for('paddock'))
         except pymysql.err.IntegrityError:
@@ -46,7 +58,8 @@ def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
         if form.binLevel.data > 1:
                 flash(f'Bin level cannot exceed 1', 'danger')
         else:
-                try:
+                try:    
+                        conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                         c = conn.cursor()
                         query = f"UPDATE feed_bins\
                         SET PaddockName = '{form.paddockName.data}', BinNumber = '{form.binNumber.data}'\
@@ -54,6 +67,8 @@ def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
                         WHERE PaddockName = '{paddockName}' AND BinNumber = '{binNumber}'"
                         c.execute(query)
                         conn.commit()
+                        c.close()
+                        conn.close()    
 
                         flash(f'Bin{binNumber} in {paddockName} updated', 'success')
                         return redirect(url_for('feed_bins', paddockName = paddockName))
@@ -68,7 +83,8 @@ def update_bin(paddockName, binNumber, lastChecked, binContains, binLevel):
 def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
     form = CattleUpdateForm()
     if form.validate_on_submit():
-        try:
+        try:    
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE cattle\
                         SET CattleID = '{form.ID.data}', Sex = '{form.sex.data}', Breed = '{form.breed.data}', DateOfBirth = '{form.dateOfBirth.data}',\
@@ -76,6 +92,8 @@ def update_cattle(ID, sex, breed, dob, weight, paddockName, dateMoved):
                         WHERE cattleID = '{ID}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()        
                 
                 flash(f'Cattle {ID} updated', 'success')
                 return redirect(url_for('cattle'))
@@ -91,13 +109,16 @@ def update_staff(staffID, first, last,  dob, farm, startDate, number):
     form = StaffUpdateForm()
     if form.validate_on_submit():
         
-                try:
+                try:    
+                        conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                         c = conn.cursor()
                         query = f"UPDATE staff\
                                 SET StaffID = '{form.staffID.data}', FirstName = '{form.firstName.data}', LastName = '{form.lastName.data}', DateOfBirth = '{form.dateOfBirth.data}', FarmName = '{form.farmLoc.data}', StartDate = '{form.startDate.data}', PrimaryContactNumber = '{form.contactNumber.data}' \
                                 WHERE StaffID = '{staffID}'"
                         c.execute(query)
                         conn.commit()
+                        c.close()
+                        conn.close()
                         
                         flash(f'Staff member {staffID} updated', 'success')
                         return redirect(url_for('staff_home'))
@@ -114,10 +135,13 @@ def update_staff_manager(staffID, managerID):
         if form.validate_on_submit():
 
                 try:
+                        conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                         c = conn.cursor()
                         query = f"UPDATE staff SET ManagerID = '{form.managerID.data}' WHERE StaffID = '{staffID}'"
                         c.execute(query)
                         conn.commit()
+                        c.close()
+                        conn.close()
 
                         flash(f'Staff member {staffID} updated', 'success')
                         return redirect(url_for('staff_home'))
@@ -132,30 +156,39 @@ def update_motorbike(vehicleID, model, farm, date, brand, engine):
     if form.validate_on_submit():  
         try:
                 #update vehicles table
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE vehicles\
                         SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
                         WHERE VehicleID = '{vehicleID}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 #update brands table
                 #use new vehicle ID as vehicles table set to cascade update
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE vehicle_brands\
                         SET Brand = '{form.brand.data}'\
                         WHERE VehicleID = '{form.vehicleID.data}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
 
                 #update motorbikes table
                 #use new vehicle ID as vehicles table set to cascade update
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE motorbikes\
                         SET EngineCC = '{form.engineCC.data}'\
                         WHERE VehicleID = '{form.vehicleID.data}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 
                 flash(f'Motorbike {vehicleID} updated', 'success')
@@ -172,30 +205,39 @@ def update_quadbike(vehicleID, model, farm, date, brand, rollCage):
     if form.validate_on_submit():  
         try:
                 #update vehicles table
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE vehicles\
                         SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
                         WHERE VehicleID = '{vehicleID}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 #update brands table
                 #use new vehicle ID as vehicles table set to cascade update
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE vehicle_brands\
                         SET Brand = '{form.brand.data}'\
                         WHERE VehicleID = '{form.vehicleID.data}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
 
                 #update motorbikes table
                 #use new vehicle ID as vehicles table set to cascade update
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE quadbikes\
                         SET RollCage = '{form.rollCage.data}'\
                         WHERE VehicleID = '{form.vehicleID.data}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 
                 flash(f'Quadbike {vehicleID} updated', 'success')
@@ -212,30 +254,39 @@ def update_buggy(vehicleID, model, farm, date, brand, numberOfSeats):
     if form.validate_on_submit():  
         try:
                 #update vehicles table
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE vehicles\
                         SET VehicleID = '{form.vehicleID.data}', Model = '{form.model.data}', FarmName = '{form.farmName.data}', PurchaseDate = '{form.purchaseDate.data}' \
                         WHERE VehicleID = '{vehicleID}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 #update brands table
                 #use new vehicle ID as vehicles table set to cascade update
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE vehicle_brands\
                         SET Brand = '{form.brand.data}'\
                         WHERE VehicleID = '{form.vehicleID.data}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
 
                 #update motorbikes table
                 #use new vehicle ID as vehicles table set to cascade update
+                conn = pymysql.connect(host=host_db, user=user_db, password= password_db, database=database_db, charset=charset_db, cursorclass=cursorclass_db)
                 c = conn.cursor()
                 query = f"UPDATE buggies\
                         SET NumberOfSeats = '{form.numberOfSeats.data}'\
                         WHERE VehicleID = '{form.vehicleID.data}'"
                 c.execute(query)
                 conn.commit()
+                c.close()
+                conn.close()
                 
                 
                 flash(f'Buggy {vehicleID} updated', 'success')
