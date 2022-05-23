@@ -8,7 +8,7 @@
 </div>
 <p></p>
     {% for post in posts %}
-        <db class="media content-section">
+        <article class="media content-section">
           <div class="media-body">
             <div class="db-metadata">
               <a class="mr-2" href="#">Bin Number: </b>{{ post.BinNumber }}</a>
@@ -53,7 +53,7 @@
             
             
           </div>
-        </db>
+        </article>
      
     {% endfor %}
 {% endblock content %}

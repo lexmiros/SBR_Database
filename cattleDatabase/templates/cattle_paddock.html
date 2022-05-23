@@ -6,7 +6,7 @@
   </p>
 </div>
     {% for post in posts %}
-        <db class="media content-section">
+        <article class="media content-section">
           <div class="media-body">
             <div class="db-metadata">
               <a class="mr-2"><b>Cattle ID : </b>{{ post.CattleID }}</a>
@@ -27,7 +27,7 @@
               <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete">
             </form>
           </div>
-        </db>
+        </article>
      
     {% endfor %}
 {% endblock content %}
