@@ -7,19 +7,19 @@
   </p>
 </div>
     {% for post in posts %}
-        <article class="media content-section">
+        <db class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="db-metadata">
               <a class="mr-2"><b>Cattle ID : </b>{{ post.CattleID }}</a>
             </div>
            
             <div>
-            <p class="article-content"><b> Sex : </b>{{ post.Sex }} </p>
-            <p class="article-content"><b> Breed : </b>{{ post.Breed }} </p>
-            <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
-            <p class="article-content"><b> Weight : </b>{{ post.Weight }} </p>
-            <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
-            <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
+            <p class="db-content"><b> Sex : </b>{{ post.Sex }} </p>
+            <p class="db-content"><b> Breed : </b>{{ post.Breed }} </p>
+            <p class="db-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
+            <p class="db-content"><b> Weight : </b>{{ post.Weight }} </p>
+            <p class="db-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
+            <p class="db-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
            
       
             <!-- Button trigger modal -->
@@ -59,7 +59,7 @@
             </div>
           </div>
           
-        </article>
+        </db>
      
     {% endfor %}
     

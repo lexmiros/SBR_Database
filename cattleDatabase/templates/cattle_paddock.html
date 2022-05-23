@@ -6,19 +6,19 @@
   </p>
 </div>
     {% for post in posts %}
-        <article class="media content-section">
+        <db class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="db-metadata">
               <a class="mr-2"><b>Cattle ID : </b>{{ post.CattleID }}</a>
             </div>
            
             
-            <p class="article-content"><b> Sex : </b>{{ post.Sex }} </p>
-            <p class="article-content"><b> Breed : </b>{{ post.Breed }} </p>
-            <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
-            <p class="article-content"><b> Weight : </b>{{ post.Weight }} </p>
-            <p class="article-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
-            <p class="article-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
+            <p class="db-content"><b> Sex : </b>{{ post.Sex }} </p>
+            <p class="db-content"><b> Breed : </b>{{ post.Breed }} </p>
+            <p class="db-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
+            <p class="db-content"><b> Weight : </b>{{ post.Weight }} </p>
+            <p class="db-content"><b> Paddock name : </b>{{ post.PaddockName }} </p>
+            <p class="db-content"><b> Date moved : </b>{{ post.DateMoved }} </p>
             <form action="{{ url_for('update_cattle', ID = post.CattleID, sex = post.Sex, breed = post.Breed, dob = post.DateOfBirth, weight = post.Weight, paddockName = post.PaddockName, dateMoved = post.DateMoved)}}", method = "POST">
               <input class="btn-grp btn-secondary btn-sm" type="submit" value="Update">
             </form>
@@ -27,7 +27,7 @@
               <input class="btn-grp btn-danger btn-sm" type="submit" value="Delete">
             </form>
           </div>
-        </article>
+        </db>
      
     {% endfor %}
 {% endblock content %}

@@ -8,15 +8,15 @@
 </div>
 <p></p>
     {% for post in posts %}
-        <article class="media content-section">
+        <db class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="db-metadata">
               <a class="mr-2" href="#">Bin Number: </b>{{ post.BinNumber }}</a>
             </div>
             <div>
-            <p class="article-content"><b> Last Checked : </b>{{ post.LastChecked }} </p>
-            <p class="article-content"><b> Bin contains: </b>{{ post.BinContains }} </p>
-            <p class="article-content"><b> Bin level (0 - 1) : </b>{{ post.BinLevel }} </p>
+            <p class="db-content"><b> Last Checked : </b>{{ post.LastChecked }} </p>
+            <p class="db-content"><b> Bin contains: </b>{{ post.BinContains }} </p>
+            <p class="db-content"><b> Bin level (0 - 1) : </b>{{ post.BinLevel }} </p>
        
             <!-- Button trigger modal -->
             <button type="button" class="btn-grp btn-danger btn-sm" data-toggle="modal" data-target="#deleteModalCenter{{post.BinNumber}}", style ="float: right;">
@@ -53,7 +53,7 @@
             
             
           </div>
-        </article>
+        </db>
      
     {% endfor %}
 {% endblock content %}

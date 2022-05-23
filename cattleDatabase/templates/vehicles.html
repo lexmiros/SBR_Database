@@ -10,20 +10,20 @@
 </div>
 
     {% for post in posts %}
-        <article class="media content-section">
+        <db class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="db-metadata">
               <a class="mr-2"> <b>Vehicle ID :</b> {{ post.VehicleID }}</a>
             </div>
-            <p class="article-content"><b> Model : </b>{{ post.Model }} </p>
-            <p class="article-content"><b> Farm location : </b>{{ post.FarmName }} </p>
-            <p class="article-content"><b> Purchase date: </b>{{ post.PurchaseDate }} </p>
-            <p class="article-content"><b> Vehicle brand: </b>{{ post.Brand }} </p>
+            <p class="db-content"><b> Model : </b>{{ post.Model }} </p>
+            <p class="db-content"><b> Farm location : </b>{{ post.FarmName }} </p>
+            <p class="db-content"><b> Purchase date: </b>{{ post.PurchaseDate }} </p>
+            <p class="db-content"><b> Vehicle brand: </b>{{ post.Brand }} </p>
            
             {% if post.EngineCC %}
 
-            <p class="article-content"><b> Vehicle type: </b> Motorbike </p>
-            <p class="article-content"><b> Engine CC : </b>{{ post.EngineCC }} </p>
+            <p class="db-content"><b> Vehicle type: </b> Motorbike </p>
+            <p class="db-content"><b> Engine CC : </b>{{ post.EngineCC }} </p>
             
 
              <!-- Button trigger modal -->
@@ -35,8 +35,8 @@
             </form>              
             {% elif post.RollCage %}
             
-            <p class="article-content"><b> Vehicle type: </b> Quadbike </p>
-            <p class="article-content"><b> Roll Cage : </b> {{post.RollCage}} </p>
+            <p class="db-content"><b> Vehicle type: </b> Quadbike </p>
+            <p class="db-content"><b> Roll Cage : </b> {{post.RollCage}} </p>
 
             
 
@@ -49,8 +49,8 @@
 
             {% elif post.NumberOfSeats %}
 
-            <p class="article-content"><b> Vehicle type: </b> Buggy </p>
-            <p class="article-content"><b> Number of seats: </b> {{post.NumberOfSeats}}</p>
+            <p class="db-content"><b> Vehicle type: </b> Buggy </p>
+            <p class="db-content"><b> Number of seats: </b> {{post.NumberOfSeats}}</p>
             
             
 
@@ -89,8 +89,8 @@
               </div>
             </div>
           </div>
-        </article>    
-        </article>
+        </db>    
+        </db>
         
     {% endfor %}
 {% endblock content %}

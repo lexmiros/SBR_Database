@@ -26,4 +26,3 @@ def dict_factory(cursor, row):
 
 from cattleDatabase import delete_routes, insert_routes, update_routes, view_routes
 
-
