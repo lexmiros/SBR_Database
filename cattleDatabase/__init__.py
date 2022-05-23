@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'dfjkhnfdgjijasdfjk' 
 
-#Database conncetion information
+#Database connection information
 host_db='localhost' 
 user_db='adminflask'
 password_db='adminflask'
