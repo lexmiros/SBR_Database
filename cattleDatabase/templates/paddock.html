@@ -7,14 +7,14 @@
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="db-metadata">
               <a class="mr-2"><b>{{ post.PaddockName }}</b></a>
             </div>
             <div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content"><b>Containing farm :</b>{{ post.FarmName}}</p>
-            <p class="article-content"><b>Size :           </b>{{ post.Size }} acres </p>
-            <p class="article-content"><b>Grass condition :</b>{{ post.GrassCondition }}</p>
+            <h2><a class="db-title" href="#">{{ post.title }}</a></h2>
+            <p class="db-content"><b>Containing farm :</b>{{ post.FarmName}}</p>
+            <p class="db-content"><b>Size :           </b>{{ post.Size }} acres </p>
+            <p class="db-content"><b>Grass condition :</b>{{ post.GrassCondition }}</p>
            
             
             <form action="{{url_for('feed_bins', paddockName = post.PaddockName)}}", method = "POST">

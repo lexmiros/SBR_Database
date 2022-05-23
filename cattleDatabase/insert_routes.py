@@ -1,5 +1,5 @@
 from cattleDatabase.forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddForm
-from cattleDatabase import *
+from cattleDatabase import pymysql, app, conn, dict_factory, render_template, url_for, redirect, flash
 
 
 

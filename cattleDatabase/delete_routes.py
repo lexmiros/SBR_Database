@@ -1,5 +1,5 @@
 
-from cattleDatabase import *
+from cattleDatabase import  app, conn, url_for, redirect, flash
 
 
 #Delete Farm

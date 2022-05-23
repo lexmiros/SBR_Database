@@ -1,4 +1,4 @@
-from cattleDatabase import *
+from cattleDatabase import app, conn, dict_factory, render_template, dict_factory
 
 @app.route("/")
 def home():

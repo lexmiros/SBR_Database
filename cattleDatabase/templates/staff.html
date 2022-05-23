@@ -9,19 +9,19 @@
     {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="db-metadata">
               <a class="mr-2"><b>Staff ID : </b>{{ post.StaffID }}</a>
               
             </div>
             <div>            
-            <p class="article-content"><b> First name : </b>{{ post.FirstName }} </p>
-            <p class="article-content"><b> Last name : </b>{{ post.LastName }} </p>
-            <p class="article-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
-            <p class="article-content"><b> Primary farm : </b>{{ post.FarmName}} </p>
-            <p class="article-content"><b> Start date : </b>{{ post.StartDate }} </p>
-            <p class="article-content"><b> Primary contact number: </b>{{ post.PrimaryContactNumber}} </p>
+            <p class="db-content"><b> First name : </b>{{ post.FirstName }} </p>
+            <p class="db-content"><b> Last name : </b>{{ post.LastName }} </p>
+            <p class="db-content"><b> Date of birth: </b>{{ post.DateOfBirth }} </p>
+            <p class="db-content"><b> Primary farm : </b>{{ post.FarmName}} </p>
+            <p class="db-content"><b> Start date : </b>{{ post.StartDate }} </p>
+            <p class="db-content"><b> Primary contact number: </b>{{ post.PrimaryContactNumber}} </p>
             {% if post.ManagerID %}
-            <p class="article-content"><b> Manager's ID : </b>{{ post.ManagerID }} </p>
+            <p class="db-content"><b> Manager's ID : </b>{{ post.ManagerID }} </p>
             {% set manager = post.ManagerID %}
             {% else%}
             {% set manager = "Self" %}

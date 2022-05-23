@@ -1,5 +1,5 @@
 from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffUpdateForm, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm, StaffUpdateManagerForm
-from cattleDatabase import *
+from cattleDatabase import pymysql, app, conn, render_template, url_for, redirect, flash
 
 #Update farm
 @app.route("/farm/update/<updateName>/<updateAddress>",methods = ['GET','POST'])

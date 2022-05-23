@@ -1,5 +1,3 @@
-from operator import add
-from socket import fromshare
 from flask import Flask, render_template, url_for, flash, redirect
 import pymysql
 
