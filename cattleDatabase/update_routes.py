@@ -1,12 +1,7 @@
 from cattleDatabase.forms import FarmAddForm, PaddockAddFrom,BinUpdateForm, CattleUpdateForm, StaffUpdateForm, MotorbikeUpdateForm, QuadbikeUpdateForm, BuggiesUpdateForm, StaffUpdateManagerForm
-from cattleDatabase import pymysql, app, conn, render_template, url_for, redirect, flash
+from cattleDatabase import pymysql, app, render_template, url_for, redirect, flash, host_db, user_db, password_db, database_db, charset_db, cursorclass_db
 
-host_db='localhost'
-user_db='adminflask'
-password_db ='adminflask'
-database_db= 'project_db_3'
-charset_db= 'utf8mb4'
-cursorclass_db = pymysql.cursors.DictCursor
+
 
 #Update farm
 @app.route("/farm/update/<updateName>/<updateAddress>",methods = ['GET','POST'])

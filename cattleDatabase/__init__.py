@@ -13,7 +13,7 @@ database_db='project_db_3'
 charset_db='utf8mb4'
 cursorclass_db =pymysql.cursors.DictCursor
 
-conn = pymysql.connect(host='localhost', user='adminflask', password='adminflask', database='project_db_3', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
+#conn = pymysql.connect(host='localhost', user='adminflask', password='adminflask', database='project_db_3', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 
 
 #Turn the results from the database into a dictionary

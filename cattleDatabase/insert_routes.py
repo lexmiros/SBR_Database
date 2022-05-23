@@ -1,12 +1,5 @@
 from cattleDatabase.forms import BinAddForm, BuggiesAddForm, CattleAddForm, FarmAddForm, MotorbikeAddForm, PaddockAddFrom, QuadbikeAddForm, StaffAddForm
-from cattleDatabase import pymysql, app, conn, dict_factory, render_template, url_for, redirect, flash
-
-host_db='localhost'
-user_db='adminflask'
-password_db ='adminflask'
-database_db= 'project_db_3'
-charset_db= 'utf8mb4'
-cursorclass_db = pymysql.cursors.DictCursor
+from cattleDatabase import pymysql, app, dict_factory, render_template, url_for, redirect, flash, host_db, user_db, password_db, database_db, charset_db, cursorclass_db
 
 
 #Add farm

@@ -1,13 +1,6 @@
 
-from cattleDatabase import  app, url_for, redirect, flash
-import pymysql
+from cattleDatabase import  app, url_for, redirect, flash, host_db, user_db, password_db, database_db, charset_db, cursorclass_db, pymysql
 
-host_db='localhost'
-user_db='adminflask'
-password_db ='adminflask'
-database_db= 'project_db_3'
-charset_db= 'utf8mb4'
-cursorclass_db = pymysql.cursors.DictCursor
 
 
 #Delete Farm

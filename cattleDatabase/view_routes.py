@@ -1,12 +1,5 @@
-from cattleDatabase import app, dict_factory, render_template, dict_factory
-import pymysql
+from cattleDatabase import app, dict_factory, render_template, dict_factory, host_db, user_db, password_db, database_db, charset_db, cursorclass_db, pymysql
 
-host_db='localhost'
-user_db='adminflask'
-password_db ='adminflask'
-database_db= 'project_db_3'
-charset_db= 'utf8mb4'
-cursorclass_db = pymysql.cursors.DictCursor
 
 @app.route("/")
 def home():
